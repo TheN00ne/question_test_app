@@ -1,3 +1,8 @@
+import { MatchQuestion } from "./components/MatchQuestion";
+import { MultipleQuestion } from "./components/MultipleQuestion";
+import { SimpleQuestion } from "./components/SimpleQuestion";
+import { WrittenQuestion } from "./components/WrittenQuestion";
+
 export interface iInitialState {
   testArr: iTest[];
 }
@@ -13,11 +18,11 @@ export interface iTest {
   timeout: number | null;
 }
 
-export interface iQuestion {
-  id: number;
-  question: string;
-  imgURL: string | null;
-}
+export type iQuestion =
+  | iSimpleQuestion
+  | iMultipleQuestion
+  | iMatchQuestion
+  | iWrittenQuestion;
 
 export interface iRegularOption {
   id: number;
@@ -35,24 +40,43 @@ export interface iMatchAnswer {
   answer: string;
 }
 
-export interface iSimpleQues extends iQuestion {
+export interface iSimpleQuestion {
+  id: number;
+  question: string;
+  imgURL: string | null;
+  type: "Simple";
   optionsArr: iRegularOption[];
-  correctOptionId: number;
-  optionsCount: number;
+  correctOptionId: number | undefined;
+  gradeAmount: number;
 }
 
-export interface iMultipleQues extends iQuestion {
+export interface iMultipleQuestion {
+  id: number;
+  question: string;
+  imgURL: string | null;
+  type: "Multiple";
   optionsArr: iRegularOption[];
   correctOptionsId: number[];
-  optionsCount: number;
+  gradeAmount: number;
+  isHardModeOn: boolean;
 }
 
-export interface iMatchQues extends iQuestion {
+export interface iMatchQuestion {
+  id: number;
+  question: string;
+  imgURL: string | null;
+  type: "Match";
   optionsArr: iMatchOption[];
   answerArr: iMatchAnswer[];
   pairCount: number;
+  gradeAmount: number;
 }
 
-export interface iWrittenQues extends iQuestion {
+export interface iWrittenQuestion {
+  id: number;
+  question: string;
+  imgURL: string | null;
+  type: "Written";
   correctAnswer: string;
+  gradeAmount: number;
 }
