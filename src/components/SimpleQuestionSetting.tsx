@@ -38,7 +38,7 @@ export const SimpleQuestionSetting: React.FC<{
 
   const changeQuestionGradeAmount = (gradeAmount: number) => {
     const newQuestArr = props.testQuestions.map((ques) => {
-      if (ques.id == props.id) {
+      if (ques.id == props.id && ques.type == "Simple") {
         return {
           ...ques,
           gradeAmount: gradeAmount,
@@ -52,7 +52,7 @@ export const SimpleQuestionSetting: React.FC<{
   };
 
   const changeQuestionOptionsArr = (optionsArr: iRegularOption[]) => {
-    const newQuestArr = props.testQuestions.map((ques) => {
+    const newQuestArr: iQuestion[] = props.testQuestions.map((ques) => {
       if (ques.id == props.id && ques.type == "Simple") {
         return {
           ...ques,
@@ -97,7 +97,7 @@ export const SimpleQuestionSetting: React.FC<{
     return newQuestArr;
   };
 
-  const AddQuestionOptionsArr = (option: iRegularOption) => {
+  const addQuestionOptionsArr = (option: iRegularOption): iQuestion[] => {
     const newQuestArr = props.testQuestions.map((ques) => {
       if (ques.id == props.id && ques.type == "Simple") {
         return {
@@ -112,7 +112,7 @@ export const SimpleQuestionSetting: React.FC<{
     return newQuestArr;
   };
 
-  const DeleteQuestionOptionsArr = (optionId: number) => {
+  const deleteQuestionOptionsArr = (optionId: number) => {
     let isChosenOption: boolean = false;
     const newQuestArr = props.testQuestions.map((ques) => {
       if (ques.id == props.id && ques.type == "Simple") {
@@ -231,7 +231,7 @@ export const SimpleQuestionSetting: React.FC<{
                 <div
                   onClick={(e: MouseEvent<HTMLDivElement>) => {
                     props.testQuestionsChangeFunc(
-                      DeleteQuestionOptionsArr(opt.id)
+                      deleteQuestionOptionsArr(opt.id)
                     );
                   }}
                 >
@@ -254,7 +254,7 @@ export const SimpleQuestionSetting: React.FC<{
             <div
               onClick={(e: MouseEvent<HTMLDivElement>) => {
                 props.testQuestionsChangeFunc(
-                  AddQuestionOptionsArr({
+                  addQuestionOptionsArr({
                     id: Date.now(),
                     answer: optionText,
                     isCorrect: false,

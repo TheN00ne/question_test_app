@@ -1,4 +1,4 @@
-import React, { MouseEvent, ChangeEvent, useState } from "react";
+import React, { MouseEvent, ChangeEvent, useState, useEffect } from "react";
 import { iQuestion, iRegularOption, iSimpleQuestion } from "../types";
 import { Switcher } from "./Switcher";
 import { Header } from "./Header";
@@ -14,8 +14,8 @@ export const CreateTestPage: React.FC = () => {
   const [currentQuestionType, setCurrentQuestionType] = useState<
     "Simple" | "Multiple" | "Match" | "Written"
   >("Simple");
-  const [timer, setTimer] = useState<boolean>(false);
-  const [timerValue, setTimerValue] = useState<number>(60);
+  const [isTimer, setIsTimer] = useState<boolean>(false);
+  const [timerValue, setTimerValue] = useState<number | undefined>(undefined);
   const [hiddenQuestions, setHiddenQuestions] = useState<boolean>(false);
   const [hiddenCorrectAnswers, setHiddenCorrectAnswers] =
     useState<boolean>(false);
@@ -52,10 +52,9 @@ export const CreateTestPage: React.FC = () => {
             type: type,
             imgURL: "",
             question: "",
-            optionsArr: [],
-            answerArr: [],
-            pairCount: 0,
+            pairs: [],
             gradeAmount: 0,
+            isHardModeOn: false,
           }
         : {
             id: Date.now(),
@@ -67,6 +66,18 @@ export const CreateTestPage: React.FC = () => {
           },
     ];
   };
+
+  const changeTimerType = (value: number) => {
+    if (isTimer) {
+      setTimerValue(value);
+    } else {
+      setTimerValue(undefined);
+    }
+  };
+
+  useEffect(() => {
+    changeTimerType(60);
+  }, [isTimer]);
 
   return (
     <div>
@@ -93,17 +104,17 @@ export const CreateTestPage: React.FC = () => {
           <div>
             <Switcher
               info="Timer: "
-              switchValue={timer}
-              switchFunc={setTimer}
+              switchValue={isTimer}
+              switchFunc={setIsTimer}
             />
-            {timer ? (
+            {isTimer ? (
               <input
                 type="number"
                 min="60"
                 value={timerValue}
                 placeholder="Timer amount..."
                 onInput={(e: ChangeEvent<HTMLInputElement>) => {
-                  setTimerValue(Number(e.currentTarget.value));
+                  changeTimerType(Number(e.currentTarget.value));
                 }}
               />
             ) : null}
@@ -136,7 +147,12 @@ export const CreateTestPage: React.FC = () => {
                 testQuestionsChangeFunc={setQuestionsArr}
               />
             ) : question.type == "Match" ? (
-              <MatchQuestionSetting key={question.id} />
+              <MatchQuestionSetting
+                key={question.id}
+                id={question.id}
+                testQuestions={questionsArr}
+                testQuestionsChangeFunc={setQuestionsArr}
+              />
             ) : question.type == "Written" ? (
               <WrittenQuestionSetting
                 key={question.id}
@@ -144,9 +160,7 @@ export const CreateTestPage: React.FC = () => {
                 testQuestions={questionsArr}
                 testQuestionsChangeFunc={setQuestionsArr}
               />
-            ) : (
-              <div></div>
-            )
+            ) : null
           )}
         </div>
       </main>
@@ -167,7 +181,13 @@ export const CreateTestPage: React.FC = () => {
           >
             Mu
           </div>
-          <div>Ma</div>
+          <div
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              setCurrentQuestionType("Match");
+            }}
+          >
+            Ma
+          </div>
           <div
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
               setCurrentQuestionType("Written");

@@ -18,6 +18,8 @@ export interface iTest {
   timeout: number | null;
 }
 
+export type questionTypes = "Simple" | "Multiple" | "Match" | "Written";
+
 export type iQuestion =
   | iSimpleQuestion
   | iMultipleQuestion
@@ -30,14 +32,11 @@ export interface iRegularOption {
   isCorrect: boolean;
 }
 
-export interface iMatchOption {
+export interface iMatchPair {
   id: number;
-  question: string;
-}
-
-export interface iMatchAnswer {
-  id: number;
+  option: string;
   answer: string;
+  userAnswer: string;
 }
 
 export interface iSimpleQuestion {
@@ -66,10 +65,9 @@ export interface iMatchQuestion {
   question: string;
   imgURL: string | null;
   type: "Match";
-  optionsArr: iMatchOption[];
-  answerArr: iMatchAnswer[];
-  pairCount: number;
+  pairs: iMatchPair[];
   gradeAmount: number;
+  isHardModeOn: boolean;
 }
 
 export interface iWrittenQuestion {

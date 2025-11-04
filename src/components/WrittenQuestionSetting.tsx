@@ -74,52 +74,55 @@ export const WrittenQuestionSetting: React.FC<{
 
   return (
     <div>
-      <h1>Written question Setting</h1>
-      <div>x</div>
-      <form>
-        <input
-          type="text"
-          placeholder="Question input..."
-          onInput={(e: ChangeEvent<HTMLInputElement>) => {
-            props.testQuestionsChangeFunc(
-              changeQuestionTextInput(e.currentTarget.value)
-            );
-          }}
-        />
-        <img src={getQuest()?.imgURL!} width="100px" alt="" />
-        <input
-          type="file"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            const file = e.currentTarget.files?.[0];
-            if (file) {
-              props.testQuestionsChangeFunc(
-                changeQuestionImgURL(URL.createObjectURL(file))
-              );
-            }
-          }}
-        />
-        <input
-          type="number"
-          min={0.1}
-          placeholder="Grade amount input..."
-          onInput={(e: ChangeEvent<HTMLInputElement>) => {
-            props.testQuestionsChangeFunc(
-              changeQuestionGradeAmount(Number(e.currentTarget.value))
-            );
-          }}
-        />
-      </form>
+      <div>=</div>
       <div>
-        <span>Answer: </span>
-        <input
-          type="text"
-          placeholder="Answer..."
-          onInput={(e: ChangeEvent<HTMLInputElement>) => {
-            props.testQuestionsChangeFunc(
-              changeQuestionAnswer(e.currentTarget.value)
-            );
-          }}
-        />
+        <h1>Written question Setting</h1>
+        <div>x</div>
+        <form>
+          <input
+            type="text"
+            placeholder="Question input..."
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              props.testQuestionsChangeFunc(
+                changeQuestionTextInput(e.currentTarget.value)
+              );
+            }}
+          />
+          <img src={getQuest()?.imgURL!} width="100px" alt="" />
+          <input
+            type="file"
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              const file = e.currentTarget.files?.[0];
+              if (file) {
+                props.testQuestionsChangeFunc(
+                  changeQuestionImgURL(URL.createObjectURL(file))
+                );
+              }
+            }}
+          />
+          <input
+            type="number"
+            min={0.1}
+            placeholder="Grade amount input..."
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              props.testQuestionsChangeFunc(
+                changeQuestionGradeAmount(Number(e.currentTarget.value))
+              );
+            }}
+          />
+        </form>
+        <div>
+          <span>Answer: </span>
+          <input
+            type="text"
+            placeholder="Answer..."
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+              props.testQuestionsChangeFunc(
+                changeQuestionAnswer(e.currentTarget.value.toLowerCase().trim())
+              );
+            }}
+          />
+        </div>
       </div>
     </div>
   );
