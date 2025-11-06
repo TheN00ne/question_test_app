@@ -162,6 +162,84 @@ export const MultipleQuestionSetting: React.FC<{
     return newQuestArr;
   };
 
+  const questionDrag = (
+    e: React.DragEvent<HTMLSpanElement>,
+    fromId: number,
+    type: "question"
+  ) => {
+    e.dataTransfer.setData(
+      "application/json",
+      JSON.stringify({ fromId, type })
+    );
+  };
+
+  const questionsSwitch = (
+    e: React.DragEvent<HTMLSpanElement>,
+    toId: number
+  ): iQuestion[] => {
+    const fromQuestion: { fromId: number; type: "question" } = JSON.parse(
+      e.dataTransfer.getData("application/json")
+    );
+
+    if (fromQuestion.type == "question") {
+      const quesArr = [...props.testQuestions];
+      const fromIndex = quesArr.findIndex(
+        (ques) => ques.id == fromQuestion.fromId
+      );
+      const toIndex = quesArr.findIndex((ques) => ques.id == toId);
+      const [fromOpt] = quesArr.splice(fromIndex, 1);
+      quesArr.splice(toIndex, 0, fromOpt);
+      return quesArr;
+    } else {
+      return props.testQuestions;
+    }
+  };
+
+  const optionDrag = (
+    e: React.DragEvent<HTMLSpanElement>,
+    fromId: number,
+    type: "option"
+  ) => {
+    e.dataTransfer.setData(
+      "application/json",
+      JSON.stringify({ fromId, type })
+    );
+  };
+
+  const optionsSwitch = (
+    e: React.DragEvent<HTMLSpanElement>,
+    toId: number
+  ): iQuestion[] => {
+    const fromIdOption: { fromId: number; type: "option" } = JSON.parse(
+      e.dataTransfer.getData("application/json")
+    );
+
+    if (fromIdOption.type == "option") {
+      const newArr = (arr: iRegularOption[]): iRegularOption[] => {
+        const fromIndex = arr.findIndex((opt) => opt.id == fromIdOption.fromId);
+        const toIndex = arr.findIndex((opt) => opt.id == toId);
+        const [fromOpt] = arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, fromOpt);
+        return arr;
+      };
+
+      const updatedArr: iQuestion[] = props.testQuestions.map((ques) => {
+        if (ques.id == props.id && ques.type == "Simple") {
+          return {
+            ...ques,
+            optionsArr: newArr(ques.optionsArr),
+          };
+        } else {
+          return ques;
+        }
+      });
+
+      return updatedArr;
+    } else {
+      return props.testQuestions;
+    }
+  };
+
   const getQuest = (): iMultipleQuestion | undefined => {
     const ques = props.testQuestions.find(({ id }) => id == props.id);
 
@@ -173,10 +251,29 @@ export const MultipleQuestionSetting: React.FC<{
 
   return (
     <div>
-      <div>=</div>
+      <span
+        draggable
+        onDragStart={(e) => questionDrag(e, props.id, "question")}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDrop={(e) =>
+          props.testQuestionsChangeFunc(questionsSwitch(e, props.id))
+        }
+      >
+        =
+      </span>
       <div>
         <h1>Multiple question Setting</h1>
-        <div>x</div>
+        <div
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            props.testQuestionsChangeFunc(
+              props.testQuestions.filter(({ id }) => id !== props.id)
+            );
+          }}
+        >
+          x
+        </div>
         <form>
           <input
             type="text"
@@ -223,6 +320,18 @@ export const MultipleQuestionSetting: React.FC<{
             {getQuest()?.optionsArr.map((opt) => (
               <div key={opt.id}>
                 <div>
+                  <span
+                    draggable
+                    onDragStart={(e) => optionDrag(e, opt.id, "option")}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                    }}
+                    onDrop={(e) =>
+                      props.testQuestionsChangeFunc(optionsSwitch(e, opt.id))
+                    }
+                  >
+                    =
+                  </span>
                   <input
                     type="text"
                     value={opt.answer}

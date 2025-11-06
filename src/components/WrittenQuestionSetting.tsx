@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { iQuestion, iWrittenQuestion } from "../types";
+import { iMatchPair, iQuestion, iWrittenQuestion } from "../types";
 
 export const WrittenQuestionSetting: React.FC<{
   id: number;
@@ -66,6 +66,39 @@ export const WrittenQuestionSetting: React.FC<{
     return newQuestArr;
   };
 
+  const questionDrag = (
+    e: React.DragEvent<HTMLSpanElement>,
+    fromId: number,
+    type: "question"
+  ) => {
+    e.dataTransfer.setData(
+      "application/json",
+      JSON.stringify({ fromId, type })
+    );
+  };
+
+  const questionsSwitch = (
+    e: React.DragEvent<HTMLSpanElement>,
+    toId: number
+  ): iQuestion[] => {
+    const fromQuestion: { fromId: number; type: "question" } = JSON.parse(
+      e.dataTransfer.getData("application/json")
+    );
+
+    if (fromQuestion.type == "question") {
+      const quesArr = [...props.testQuestions];
+      const fromIndex = quesArr.findIndex(
+        (ques) => ques.id == fromQuestion.fromId
+      );
+      const toIndex = quesArr.findIndex((ques) => ques.id == toId);
+      const [fromOpt] = quesArr.splice(fromIndex, 1);
+      quesArr.splice(toIndex, 0, fromOpt);
+      return quesArr;
+    } else {
+      return props.testQuestions;
+    }
+  };
+
   const getQuest = (): iWrittenQuestion | undefined => {
     const ques = props.testQuestions.find(({ id }) => id == props.id);
 
@@ -74,10 +107,29 @@ export const WrittenQuestionSetting: React.FC<{
 
   return (
     <div>
-      <div>=</div>
+      <span
+        draggable
+        onDragStart={(e) => questionDrag(e, props.id, "question")}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDrop={(e) =>
+          props.testQuestionsChangeFunc(questionsSwitch(e, props.id))
+        }
+      >
+        =
+      </span>
       <div>
         <h1>Written question Setting</h1>
-        <div>x</div>
+        <div
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            props.testQuestionsChangeFunc(
+              props.testQuestions.filter(({ id }) => id !== props.id)
+            );
+          }}
+        >
+          x
+        </div>
         <form>
           <input
             type="text"
@@ -113,10 +165,9 @@ export const WrittenQuestionSetting: React.FC<{
         </form>
         <div>
           <span>Answer: </span>
-          <input
-            type="text"
+          <textarea
             placeholder="Answer..."
-            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+            onInput={(e: ChangeEvent<HTMLTextAreaElement>) => {
               props.testQuestionsChangeFunc(
                 changeQuestionAnswer(e.currentTarget.value.toLowerCase().trim())
               );
