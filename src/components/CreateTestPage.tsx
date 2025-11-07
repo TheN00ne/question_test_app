@@ -6,10 +6,13 @@ import { SimpleQuestionSetting } from "./SimpleQuestionSetting";
 import { MultipleQuestionSetting } from "./MultipleQuestionSetting";
 import { MatchQuestionSetting } from "./MatchQuestionSetting";
 import { WrittenQuestionSetting } from "./WrittenQuestionSetting";
+import { useDispatch } from "react-redux";
+import { createTest } from "../reducers/taskReducer";
 
 export const CreateTestPage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [image, setImage] = useState<string | undefined>(undefined);
   const [questionsArr, setQuestionsArr] = useState<iQuestion[]>([]);
   const [currentQuestionType, setCurrentQuestionType] = useState<
     "Simple" | "Multiple" | "Match" | "Written"
@@ -19,6 +22,8 @@ export const CreateTestPage: React.FC = () => {
   const [hiddenQuestions, setHiddenQuestions] = useState<boolean>(false);
   const [hiddenCorrectAnswers, setHiddenCorrectAnswers] =
     useState<boolean>(false);
+
+  const [isTestValid, setIsTestValid] = useState<boolean>(false);
 
   const addQuestion = (
     type: "Simple" | "Multiple" | "Match" | "Written"
@@ -75,9 +80,78 @@ export const CreateTestPage: React.FC = () => {
     }
   };
 
+  const checkIsTestValid = (): boolean => {
+    if (
+      title.trim() == "" ||
+      description.trim() == "" ||
+      (isTimer && timerValue == undefined) ||
+      image == undefined ||
+      questionsArr.length == 0
+    ) {
+      return false;
+    } else {
+      for (let ques of questionsArr) {
+        if (
+          ques.question.trim().length == 0 ||
+          ques.imgURL == undefined ||
+          ques.gradeAmount == 0
+        ) {
+          return false;
+        }
+        if (ques.type == "Simple") {
+          if (ques.optionsArr.length < 2 || ques.correctOptionId == undefined) {
+            return false;
+          }
+          if (ques.optionsArr.length > 1) {
+            for (let opt of ques.optionsArr) {
+              if (opt.answer == "") {
+                return false;
+              }
+            }
+          } else {
+            return false;
+          }
+        } else if (ques.type == "Multiple") {
+          if (ques.optionsArr.length < 2 || ques.correctOptionsId.length == 0) {
+            return false;
+          }
+        } else if (ques.type == "Match") {
+          if (ques.pairs.length > 1) {
+            for (let pair of ques.pairs) {
+              if (pair.answer == "" || pair.option == "") {
+                return false;
+              }
+            }
+          } else {
+            return false;
+          }
+        } else if (ques.type == "Written") {
+          if (ques.correctAnswer.trim() == "") {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  };
+
+  const countTotalMark = (): number => {
+    let sum = 0;
+    for (let ques of questionsArr) {
+      sum = sum + ques.gradeAmount;
+    }
+    return sum;
+  };
+
+  useEffect(() => {
+    setIsTestValid(checkIsTestValid());
+  }, [questionsArr, title, description, image, isTimer, timerValue]);
+
   useEffect(() => {
     changeTimerType(60);
   }, [isTimer]);
+
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -99,6 +173,16 @@ export const CreateTestPage: React.FC = () => {
               setDescription(e.currentTarget.value);
             }}
           ></textarea>
+          <img src={image} width="100px" />
+          <input
+            type="file"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const file = e.currentTarget.files?.[0];
+              if (file) {
+                setImage(URL.createObjectURL(file));
+              }
+            }}
+          />
         </form>
         <div>
           <div>
@@ -203,7 +287,35 @@ export const CreateTestPage: React.FC = () => {
             +
           </div>
         </div>
-        <div>Create test</div>
+        {isTestValid ? (
+          <div
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              dispatch(
+                createTest({
+                  id: Date.now(),
+                  title: title,
+                  description: description,
+                  imgURL: image,
+                  questionArr: questionsArr,
+                  totalMark: countTotalMark(),
+                  isSetTimer: isTimer,
+                  timeout: timerValue,
+                })
+              );
+              setTitle("");
+              setDescription("");
+              setImage(undefined);
+              setIsTimer(false);
+              setTimerValue(undefined);
+              setCurrentQuestionType("Simple");
+              setQuestionsArr([]);
+            }}
+          >
+            Create test
+          </div>
+        ) : (
+          <div>---</div>
+        )}
       </footer>
     </div>
   );

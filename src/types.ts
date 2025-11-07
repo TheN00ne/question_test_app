@@ -11,11 +11,11 @@ export interface iTest {
   id: number;
   title: string;
   description: string;
-  imgURL: string;
-  questionArr: [];
+  imgURL: string | undefined;
+  questionArr: iQuestion[];
   totalMark: number;
   isSetTimer: boolean;
-  timeout: number | null;
+  timeout: number | undefined;
 }
 
 export type questionTypes = "Simple" | "Multiple" | "Match" | "Written";
