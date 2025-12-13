@@ -6,6 +6,7 @@ import {
   iMultipleQuestion,
 } from "../types";
 import { Switcher } from "./Switcher";
+import { InfoCircle } from "./InfoCircle";
 
 export const MultipleQuestionSetting: React.FC<{
   id: number;
@@ -248,6 +249,7 @@ export const MultipleQuestionSetting: React.FC<{
 
   const [optionText, setOptionText] = useState<string>("");
   const [isHardMode, setIsHardMode] = useState<boolean>(false);
+  const [isInfoShowed, setIsInfoShowed] = useState<boolean>(false);
 
   return (
     <div>
@@ -303,6 +305,10 @@ export const MultipleQuestionSetting: React.FC<{
               setIsHardMode(!isHardMode);
               props.testQuestionsChangeFunc(changeHardMode());
             }}
+          />
+          <InfoCircle
+            isInfoShowed={isInfoShowed}
+            setIsInfoShowed={setIsInfoShowed}
           />
           <input
             type="number"

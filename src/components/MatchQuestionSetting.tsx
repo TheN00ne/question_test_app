@@ -1,6 +1,7 @@
 import React, { MouseEvent, ChangeEvent, useState } from "react";
 import { iMatchPair, iMatchQuestion, iQuestion } from "../types";
 import { Switcher } from "./Switcher";
+import { InfoCircle } from "./InfoCircle";
 
 export const MatchQuestionSetting: React.FC<{
   id: number;
@@ -115,79 +116,6 @@ export const MatchQuestionSetting: React.FC<{
     return ques?.type == "Match" ? ques : undefined;
   };
 
-  const onDrag = (
-    e: React.DragEvent<HTMLInputElement>,
-    quesId: number,
-    fromPairId: number,
-    fromField: "answer" | "userAnswer",
-    value: string
-  ) => {
-    const dragData = JSON.stringify({
-      quesId,
-      fromPairId,
-      fromField,
-      value,
-    });
-    e.dataTransfer.setData("application/json", dragData);
-  };
-
-  const switchQuestionsPairArr = (
-    e: React.DragEvent<HTMLInputElement>,
-    toPair: {
-      quesId: number;
-      toPairId: number;
-      toField: "answer" | "userAnswer";
-      value: string;
-    }
-  ): iQuestion[] => {
-    const fromPair: {
-      quesId: number;
-      fromPairId: number;
-      fromField: "answer" | "userAnswer";
-      value: string;
-    } = JSON.parse(e.dataTransfer.getData("application/json"));
-    const newQuesArr: iQuestion[] = props.testQuestions.map((ques) => {
-      if (
-        toPair.quesId == fromPair.quesId &&
-        ques.id == props.id &&
-        ques.type == "Match"
-      ) {
-        return {
-          ...ques,
-          pairs: ques.pairs.map((pair) => {
-            //Якщо там, де вставляємо не порожньо або те, що вставляємо порожнє, то нічого не змінюємо
-            if (toPair.value != "" || fromPair.value == "") return pair;
-
-            //Якщо answer і userAnswer - це одна пара, то міняємо місцями
-            if (
-              fromPair.fromPairId == toPair.toPairId &&
-              toPair.toPairId == pair.id
-            )
-              return {
-                ...pair,
-                userAnswer: pair.answer,
-                answer: pair.userAnswer,
-              };
-
-            //Якщо у пари id такий самий, як у пари, з якої брали drag, то очищаємо в неї fromField (бо ми його перенесли з выдси)
-            if (pair.id == fromPair.fromPairId)
-              return { ...pair, [fromPair.fromField]: "" };
-
-            //Якщо у пари id такий самий, як у пари, в яку переносимо drag, то встановлюємо їй fromField значення drag(бо ми його перенесли сюди)
-            if (pair.id == toPair.toPairId)
-              return { ...pair, [toPair.toField]: fromPair.value };
-
-            //Інакше - нічого не міняємо
-            return pair;
-          }),
-        };
-      } else {
-        return ques;
-      }
-    });
-    return newQuesArr;
-  };
-
   const questionDrag = (
     e: React.DragEvent<HTMLSpanElement>,
     fromId: number,
@@ -267,6 +195,7 @@ export const MatchQuestionSetting: React.FC<{
   };
 
   const [isHardMode, setIsHardMode] = useState<boolean>(false);
+  const [isInfoShowed, setIsInfoShowed] = useState<boolean>(false);
 
   const [optionValue, setOptionValue] = useState<string>("");
   const [answerValue, setAnswerValue] = useState<string>("");
@@ -326,6 +255,10 @@ export const MatchQuestionSetting: React.FC<{
               props.testQuestionsChangeFunc(changeHardMode());
             }}
           />
+          <InfoCircle
+            isInfoShowed={isInfoShowed}
+            setIsInfoShowed={setIsInfoShowed}
+          />
           <input
             type="number"
             min={0.1}
@@ -384,52 +317,18 @@ export const MatchQuestionSetting: React.FC<{
                     height: "100px",
                   }}
                 />
-                <input
-                  type="text"
-                  value={pair.userAnswer}
-                  draggable
-                  onDragStart={(e) =>
-                    onDrag(e, props.id, pair.id, "userAnswer", pair.userAnswer)
-                  }
-                  onDragOver={(e: React.DragEvent<HTMLInputElement>) => {
-                    e.preventDefault();
-                  }}
-                  onDrop={(e) =>
-                    props.testQuestionsChangeFunc(
-                      switchQuestionsPairArr(e, {
-                        quesId: props.id,
-                        toPairId: pair.id,
-                        toField: "userAnswer",
-                        value: pair.userAnswer,
-                      })
-                    )
-                  }
+                <div
                   style={{
                     border: "black dashed 1px",
                     width: "100px",
                     height: "100px",
                   }}
-                />
+                >
+                  {pair.userAnswer}
+                </div>
                 <input
                   type="text"
                   value={pair.answer}
-                  draggable
-                  onDragStart={(e) =>
-                    onDrag(e, props.id, pair.id, "answer", pair.answer)
-                  }
-                  onDragOver={(e: React.DragEvent<HTMLInputElement>) => {
-                    e.preventDefault();
-                  }}
-                  onDrop={(e) =>
-                    props.testQuestionsChangeFunc(
-                      switchQuestionsPairArr(e, {
-                        quesId: props.id,
-                        toPairId: pair.id,
-                        toField: "answer",
-                        value: pair.answer,
-                      })
-                    )
-                  }
                   onInput={(e: ChangeEvent<HTMLInputElement>) => {
                     const newPairArr: iMatchPair[] | undefined =
                       getQuest()?.pairs.map((p) => {
@@ -482,7 +381,7 @@ export const MatchQuestionSetting: React.FC<{
                     id: Date.now(),
                     option: optionValue,
                     answer: answerValue,
-                    userAnswer: "",
+                    userAnswer: "---",
                   })
                 );
                 setOptionValue("");

@@ -1,8 +1,3 @@
-import { MatchQuestion } from "./components/MatchQuestion";
-import { MultipleQuestion } from "./components/MultipleQuestion";
-import { SimpleQuestion } from "./components/SimpleQuestion";
-import { WrittenQuestion } from "./components/WrittenQuestion";
-
 export interface iInitialState {
   testArr: iTest[];
 }
@@ -16,6 +11,8 @@ export interface iTest {
   totalMark: number;
   isSetTimer: boolean;
   timeout: number | undefined;
+  isHiddenQuestions: boolean;
+  isHiddenCorrectAnswers: boolean;
 }
 
 export type questionTypes = "Simple" | "Multiple" | "Match" | "Written";

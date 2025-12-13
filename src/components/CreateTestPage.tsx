@@ -23,6 +23,10 @@ export const CreateTestPage: React.FC = () => {
   const [hiddenCorrectAnswers, setHiddenCorrectAnswers] =
     useState<boolean>(false);
 
+  const [secondsAmount, setSecondsAmount] = useState<number>(10);
+  const [minutesAmount, setMinutesAmount] = useState<number>(0);
+  const [hoursAmount, setHoursAmount] = useState<number>(0);
+
   const [isTestValid, setIsTestValid] = useState<boolean>(false);
 
   const addQuestion = (
@@ -72,9 +76,9 @@ export const CreateTestPage: React.FC = () => {
     ];
   };
 
-  const changeTimerType = (value: number) => {
+  const changeTimerType = () => {
     if (isTimer) {
-      setTimerValue(value);
+      setTimerValue(hoursAmount * 3600 + minutesAmount * 60 + secondsAmount);
     } else {
       setTimerValue(undefined);
     }
@@ -85,17 +89,12 @@ export const CreateTestPage: React.FC = () => {
       title.trim() == "" ||
       description.trim() == "" ||
       (isTimer && timerValue == undefined) ||
-      image == undefined ||
       questionsArr.length == 0
     ) {
       return false;
     } else {
       for (let ques of questionsArr) {
-        if (
-          ques.question.trim().length == 0 ||
-          ques.imgURL == undefined ||
-          ques.gradeAmount == 0
-        ) {
+        if (ques.question.trim().length == 0 || ques.gradeAmount == 0) {
           return false;
         }
         if (ques.type == "Simple") {
@@ -148,8 +147,8 @@ export const CreateTestPage: React.FC = () => {
   }, [questionsArr, title, description, image, isTimer, timerValue]);
 
   useEffect(() => {
-    changeTimerType(60);
-  }, [isTimer]);
+    changeTimerType();
+  }, [isTimer, secondsAmount, minutesAmount, hoursAmount]);
 
   const dispatch = useDispatch();
 
@@ -192,15 +191,38 @@ export const CreateTestPage: React.FC = () => {
               switchFunc={setIsTimer}
             />
             {isTimer ? (
-              <input
-                type="number"
-                min="60"
-                value={timerValue}
-                placeholder="Timer amount..."
-                onInput={(e: ChangeEvent<HTMLInputElement>) => {
-                  changeTimerType(Number(e.currentTarget.value));
-                }}
-              />
+              <div>
+                <input
+                  type="number"
+                  min="0"
+                  max="23"
+                  value={hoursAmount}
+                  placeholder="Hours amount..."
+                  onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                    setHoursAmount(Number(e.currentTarget.value));
+                  }}
+                />
+                <input
+                  type="number"
+                  min="0"
+                  max="59"
+                  value={minutesAmount}
+                  placeholder="Minutes amount..."
+                  onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                    setMinutesAmount(Number(e.currentTarget.value));
+                  }}
+                />
+                <input
+                  type="number"
+                  min={hoursAmount == 0 && minutesAmount == 0 ? 10 : 0}
+                  max="59"
+                  value={secondsAmount}
+                  placeholder="Seconds amount..."
+                  onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                    setSecondsAmount(Number(e.currentTarget.value));
+                  }}
+                />
+              </div>
             ) : null}
           </div>
           <Switcher
@@ -300,6 +322,8 @@ export const CreateTestPage: React.FC = () => {
                   totalMark: countTotalMark(),
                   isSetTimer: isTimer,
                   timeout: timerValue,
+                  isHiddenQuestions: hiddenQuestions,
+                  isHiddenCorrectAnswers: hiddenCorrectAnswers,
                 })
               );
               setTitle("");
