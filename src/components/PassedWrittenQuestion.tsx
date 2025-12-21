@@ -56,18 +56,27 @@ export const PassWrittenQuestion: React.FC<
         <div>
           {!props.isHiddenCorrectAnswers ? (
             <div>
-              {props.correctAnswer.trim().toLowerCase() !==
-              currentCorrectQuestion?.correctAnswer.trim().toLowerCase() ? (
+              {props.correctAnswer.trim().toLowerCase() == "" ? (
                 <div>
-                  <div style={{ border: "1px solid red" }}>
+                  <div style={{ border: "1px solid grey", height: "25px" }}>
                     {props.correctAnswer}
                   </div>
-                  <div style={{ border: "1px solid green" }}>
+                  <div style={{ border: "1px solid green", height: "25px" }}>
+                    {currentCorrectQuestion?.correctAnswer}
+                  </div>
+                </div>
+              ) : props.correctAnswer.trim().toLowerCase() !==
+                currentCorrectQuestion?.correctAnswer.trim().toLowerCase() ? (
+                <div>
+                  <div style={{ border: "1px solid red", height: "25px" }}>
+                    {props.correctAnswer}
+                  </div>
+                  <div style={{ border: "1px solid green", height: "25px" }}>
                     {currentCorrectQuestion?.correctAnswer}
                   </div>
                 </div>
               ) : (
-                <div style={{ border: "1px solid green" }}>
+                <div style={{ border: "1px solid green", height: "25px" }}>
                   {props.correctAnswer}
                 </div>
               )}

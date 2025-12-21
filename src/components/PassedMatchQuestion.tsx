@@ -77,6 +77,8 @@ export const PassedMatchedQuestion: React.FC<
                       currentCorrectQuestion?.pairs.find((p) => p.id == pair.id)
                         ?.answer
                         ? "green"
+                        : pair.userAnswer == "---"
+                        ? "grey"
                         : "red"
                     }`,
                   }

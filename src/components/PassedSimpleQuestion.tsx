@@ -35,7 +35,7 @@ export const PassedSimpleQuestion: React.FC<
   useEffect(() => {
     props.correctOptionId == currentCorrectQuestion?.correctOptionId
       ? setMark(props.gradeAmount)
-      : 0;
+      : setMark(0);
   }, [currentCorrectQuestion]);
 
   useEffect(() => {

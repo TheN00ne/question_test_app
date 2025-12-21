@@ -33,43 +33,48 @@ export const PassedMultipleQuestion: React.FC<
   }, []);
 
   useEffect(() => {
-    if (props.isHardModeOn) {
-      for (let op of props.optionsArr) {
-        if (
-          op.isCorrect !==
-          currentCorrectQuestion?.optionsArr.find((o) => o.id == op.id)
-            ?.isCorrect
-        ) {
-          setMark(0);
-          return;
-        }
-      }
-      setMark(props.gradeAmount);
+    if (!currentCorrectQuestion) {
+      setMark(0);
+      return;
     } else {
-      let amount = 0;
-      for (let op of props.optionsArr) {
-        if (
-          op.isCorrect &&
-          currentCorrectQuestion?.optionsArr.find((o) => o.id == op.id)
-            ?.isCorrect
-        ) {
-          amount++;
-        } else if (
-          op.isCorrect &&
-          !currentCorrectQuestion?.optionsArr.find((o) => o.id == op.id)
-            ?.isCorrect
-        ) {
-          amount--;
+      if (props.isHardModeOn) {
+        for (let op of props.optionsArr) {
+          if (
+            op.isCorrect !==
+            currentCorrectQuestion?.optionsArr.find((o) => o.id == op.id)
+              ?.isCorrect
+          ) {
+            setMark(0);
+            return;
+          }
         }
-      }
-      if (amount < 0) {
-        setMark(0);
+        setMark(props.gradeAmount);
       } else {
-        setMark(
-          amount *
-            (props.gradeAmount /
-              currentCorrectQuestion!.correctOptionsId.length)
-        );
+        let amount = 0;
+        for (let op of props.optionsArr) {
+          if (
+            op.isCorrect &&
+            currentCorrectQuestion?.optionsArr.find((o) => o.id == op.id)
+              ?.isCorrect
+          ) {
+            amount++;
+          } else if (
+            op.isCorrect &&
+            !currentCorrectQuestion?.optionsArr.find((o) => o.id == op.id)
+              ?.isCorrect
+          ) {
+            amount--;
+          }
+        }
+        if (amount < 0) {
+          setMark(0);
+        } else {
+          setMark(
+            amount *
+              (props.gradeAmount /
+                currentCorrectQuestion!.correctOptionsId.length)
+          );
+        }
       }
     }
   }, [currentCorrectQuestion]);
