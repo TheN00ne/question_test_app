@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { iTest } from "../types";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteTest } from "../reducers/taskReducer";
 
 export const TestIcon: React.FC<iTest> = (props) => {
+  const dispatch = useDispatch();
+
   const [secondsAmount, setSecondsAmount] = useState<number | undefined>(
     undefined
   );
@@ -32,6 +36,13 @@ export const TestIcon: React.FC<iTest> = (props) => {
 
   return (
     <div>
+      <div
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          dispatch(deleteTest(props.id));
+        }}
+      >
+        x
+      </div>
       <div>
         {props.isSetTimer ? (
           <div>
