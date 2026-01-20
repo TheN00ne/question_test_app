@@ -24,7 +24,7 @@ export const PassedMultipleQuestion: React.FC<
       currentTest?.questionArr.filter((ques) => ques.type == "Multiple");
 
     const currentQues: iMultipleQuestion | undefined = multipleQuests?.find(
-      (ques) => ques.id == props.id
+      (ques) => ques.id == props.id,
     );
 
     if (currentQues) {
@@ -72,7 +72,7 @@ export const PassedMultipleQuestion: React.FC<
           setMark(
             amount *
               (props.gradeAmount /
-                currentCorrectQuestion!.correctOptionsId.length)
+                currentCorrectQuestion!.correctOptionsId.length),
           );
         }
       }
@@ -84,52 +84,53 @@ export const PassedMultipleQuestion: React.FC<
   }, [mark]);
 
   return (
-    <div>
-      <div>
+    <div className="quesComp">
+      <div className="quesHeader">
         <h2>{props.question}</h2>
+        {!props.isHiddenCorrectAnswers ? (
+          <div className="grade">Mark: {Math.round(mark * 100) / 100}</div>
+        ) : null}
+      </div>
+      <div className="imgBlock">
         <img
           src={`${props.imgURL}`}
           alt={`${props.id} multiple question image`}
         />
       </div>
-      <div>
+      <div className="optionsComp">
         {currentCorrectQuestion?.optionsArr.map((option) => (
           <div
+            className="optionInput"
             style={
               !props.isHiddenCorrectAnswers
                 ? {
-                    border: `1px solid ${
+                    backgroundColor: `${
                       option.id ==
                         props.correctOptionsId.find((id) => id == option.id) &&
                       !option.isCorrect
                         ? "red"
                         : option.isCorrect
-                        ? "green"
-                        : "grey"
+                          ? "green"
+                          : "#7f809f"
                     }`,
                   }
                 : undefined
             }
           >
-            <label>
-              {option.answer}
-              <input
-                disabled
-                type="checkbox"
-                checked={
-                  !props.isHiddenCorrectAnswers
-                    ? props.optionsArr.find((op) => op.id == option.id)
-                        ?.isCorrect
-                    : false
-                }
-              />
-            </label>
+            <label>{option.answer}</label>
+            <input
+              className="checkInp"
+              disabled
+              type="checkbox"
+              checked={
+                !props.isHiddenCorrectAnswers
+                  ? props.optionsArr.find((op) => op.id == option.id)?.isCorrect
+                  : false
+              }
+            />
           </div>
         ))}
       </div>
-      {!props.isHiddenCorrectAnswers ? (
-        <div>Mark:{Math.round(mark * 100) / 100}</div>
-      ) : null}
     </div>
   );
 };

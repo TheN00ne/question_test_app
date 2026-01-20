@@ -24,7 +24,7 @@ export const PassedSimpleQuestion: React.FC<
       currentTest?.questionArr.filter((ques) => ques.type == "Simple");
 
     const currentQues: iSimpleQuestion | undefined = simpleQuests?.find(
-      (ques) => ques.id == props.id
+      (ques) => ques.id == props.id,
     );
 
     if (currentQues) {
@@ -43,50 +43,53 @@ export const PassedSimpleQuestion: React.FC<
   }, [mark]);
 
   return (
-    <div>
-      <div>
+    <div className="quesComp">
+      <div className="quesHeader">
         <h2>{props.question}</h2>
+        {!props.isHiddenCorrectAnswers ? (
+          <div className="grade">Mark: {Math.round(mark * 100) / 100}</div>
+        ) : null}
+      </div>
+      <div className="imgBlock">
         <img
           src={`${props.imgURL}`}
           alt={`${props.id} simple question image`}
         />
       </div>
-      <div>
+      <div className="optionsComp">
         {currentCorrectQuestion?.optionsArr.map((option) => (
           <div
+            className="optionInput"
             style={
               !props.isHiddenCorrectAnswers
                 ? {
-                    border: ` 1px solid ${
+                    backgroundColor: `${
                       option.id == props.correctOptionId && !option.isCorrect
                         ? "red"
                         : option.isCorrect
-                        ? "green"
-                        : "grey"
+                          ? "green"
+                          : "#7f809f"
                     }`,
                   }
                 : undefined
             }
           >
-            <label>
-              {option.answer}
-              <input
-                disabled
-                type="radio"
-                checked={
-                  !props.isHiddenCorrectAnswers
-                    ? props.optionsArr.find((op) => op.id == option.id)
-                        ?.isCorrect
-                    : false
-                }
-              />
-            </label>
+            <label>{option.answer}</label>
+            <input
+              className="radInp"
+              type="radio"
+              name={`${props.id}`}
+              key={option.id}
+              disabled
+              checked={
+                !props.isHiddenCorrectAnswers
+                  ? props.optionsArr.find((op) => op.id == option.id)?.isCorrect
+                  : false
+              }
+            />
           </div>
         ))}
       </div>
-      {!props.isHiddenCorrectAnswers ? (
-        <div>Mark: {Math.round(mark * 100) / 100}</div>
-      ) : null}
     </div>
   );
 };

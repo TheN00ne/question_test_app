@@ -9,9 +9,20 @@ export const WrittenQuestion: React.FC<
   }
 > = (props) => {
   return (
-    <div>
-      <h1>Written question</h1>
+    <div className="quesComp">
+      <div className="quesHeader">
+        <h2>Written question</h2>
+        <div className="grade">Mark: {props.gradeAmount}</div>
+      </div>
+      <div className="imgBlock">
+        <img
+          src={`${props.imgURL}`}
+          alt={`${props.id} multiple question image`}
+        />
+      </div>
       <textarea
+        className="writtenAns"
+        placeholder="Write the answer..."
         value={!props.isActive ? props.correctAnswer : undefined}
         disabled={!props.isActive}
         onInput={(e: ChangeEvent<HTMLTextAreaElement>) => {

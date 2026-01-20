@@ -1,13 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
+import { lazy, Suspense } from "react";
 import { RootState } from "..";
 import { Header } from "./Header";
 import { Link } from "react-router-dom";
 import { iInitialState, iTest } from "../types";
 import { useSelector } from "react-redux";
-import { TestIcon } from "./TestIcon";
 import { SearchInput } from "./SearchInput";
 
-export const MainPage: React.FC = () => {
+const LazyTestIcon = lazy(() => import("./TestIcon"));
+
+const MainPage: React.FC = () => {
   const { testArr }: iInitialState = useSelector((state: RootState) => state);
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -45,34 +47,47 @@ export const MainPage: React.FC = () => {
           setSearchValue={setSearchValue}
           setVisibleTestCount={setVisibleTestCount}
         />
-        {filteredMemoTestArr.map((test) => (
-          <TestIcon
-            id={test.id}
-            key={test.id}
-            title={test.title}
-            description={test.description}
-            imgURL={test.imgURL}
-            isSetTimer={test.isSetTimer}
-            timeout={test.timeout}
-            totalMark={test.totalMark}
-            questionArr={test.questionArr}
-            isHiddenQuestions={test.isHiddenQuestions}
-            isHiddenCorrectAnswers={test.isHiddenCorrectAnswers}
-          />
-        ))}
-        <button
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            setVisibleTestCount((prev) => prev + 4);
-          }}
-        >
-          Show more
-        </button>
-      </main>
-      <footer>
-        <Link to="/create">
-          <div>+</div>
+        <div className={"itemsContainer"}>
+          {filteredMemoTestArr.map((test) => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyTestIcon
+                id={test.id}
+                key={test.id}
+                title={test.title}
+                description={test.description}
+                imgURL={test.imgURL}
+                isSetTimer={test.isSetTimer}
+                timeout={test.timeout}
+                totalMark={test.totalMark}
+                questionArr={test.questionArr}
+                isHiddenQuestions={test.isHiddenQuestions}
+                isHiddenCorrectAnswers={test.isHiddenCorrectAnswers}
+              />
+            </Suspense>
+          ))}
+        </div>
+        <div className={"bottomPart"}>
+          <button
+            className={"showMoreBtn"}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              setVisibleTestCount((prev) => prev + 4);
+            }}
+          >
+            Show more
+          </button>
+        </div>
+        <Link className={"createTestBtn"} to="/create">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path
+              fill="#000000"
+              d="M10 0c.423 0 .766.343.766.766v8.467h8.468a.766.766 0 1 1 0 1.533h-8.468v8.468a.766.766 0 1 1-1.532 0l-.001-8.468H.766a.766.766 0 0 1 0-1.532l8.467-.001V.766A.768.768 0 0 1 10 0Z"
+            />
+          </svg>
         </Link>
-      </footer>
+      </main>
+      <footer></footer>
     </div>
   );
 };
+
+export default MainPage;

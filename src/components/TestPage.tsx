@@ -7,7 +7,7 @@ import { MatchQuestion } from "./MatchQuestion";
 import { WrittenQuestion } from "./WrittenQuestion";
 import { Header } from "./Header";
 
-export const TestPage: React.FC = () => {
+const TestPage: React.FC = () => {
   const { id } = useParams();
   const { state } = useLocation();
 
@@ -91,28 +91,51 @@ export const TestPage: React.FC = () => {
   return (
     <div>
       <Header headerText="Tests" />
+      {!isTestActive ? <div className="background"></div> : null}
       <div>
         {!isTestActive ? (
-          <div>
+          <div className="timeoutComp">
             <h1>Out of time!</h1>
-            <Link to={`/passedTest/${id}`} state={{ test: currentTest }}>
+            <Link
+              className="testBtn"
+              to={`/passedTest/${id}`}
+              state={{ test: currentTest }}
+            >
               Pass the test
             </Link>
           </div>
         ) : null}
-        <div>
-          <h1>{currentTest?.title}</h1>
-          <p>{currentTest?.description}</p>
-          <img src={`${currentTest?.imgURL}`} alt={`${currentTest?.id} test`} />
-          <div>{currentTest?.totalMark}</div>
-          {currentTest?.isSetTimer ? (
-            <div>
-              <span>{hoursAmount}</span>:<span>{minutesAmount}</span>:
-              <span>{secondsAmount}</span>
+        <div className="infoBlock">
+          <div className="headerInfo">
+            <div className="totalMark">
+              Total mark: {currentTest?.totalMark}
             </div>
-          ) : null}
+            {currentTest?.isSetTimer ? (
+              <div className="timer">
+                <span>
+                  {hoursAmount! > 9 ? hoursAmount : `0${hoursAmount}`}
+                </span>
+                :
+                <span>
+                  {minutesAmount! > 9 ? minutesAmount : `0${minutesAmount}`}
+                </span>
+                :
+                <span>
+                  {secondsAmount! > 9 ? secondsAmount : `0${secondsAmount}`}
+                </span>
+              </div>
+            ) : null}
+          </div>
+          <div className="bodyInfo">
+            <h1>{currentTest?.title}</h1>
+            <p>{currentTest?.description}</p>
+            <img
+              src={`${currentTest?.imgURL}`}
+              alt={`${currentTest?.id} test`}
+            />
+          </div>
         </div>
-        <div>
+        <div className="questionContainer">
           {currentTest?.questionArr.map((question) => {
             if (question.type == "Simple") {
               return (
@@ -181,10 +204,18 @@ export const TestPage: React.FC = () => {
             }
           })}
         </div>
-        <Link to={`/passedTest/${id}`} state={{ test: currentTest }}>
-          Pass the test
-        </Link>
+        <div className="bottomComp">
+          <Link
+            className="testBtn"
+            to={`/passedTest/${id}`}
+            state={{ test: currentTest }}
+          >
+            Pass the test
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
+
+export default TestPage;

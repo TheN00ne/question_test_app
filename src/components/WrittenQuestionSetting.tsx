@@ -106,8 +106,9 @@ export const WrittenQuestionSetting: React.FC<{
   };
 
   return (
-    <div>
-      <span
+    <div className="questionBlock">
+      <div
+        className="dragIcon"
         draggable
         onDragStart={(e) => questionDrag(e, props.id, "question")}
         onDragOver={(e) => {
@@ -117,21 +118,45 @@ export const WrittenQuestionSetting: React.FC<{
           props.testQuestionsChangeFunc(questionsSwitch(e, props.id))
         }
       >
-        =
-      </span>
-      <div>
-        <h1>Written question Setting</h1>
-        <div
-          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-            props.testQuestionsChangeFunc(
-              props.testQuestions.filter(({ id }) => id !== props.id)
-            );
-          }}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
         >
-          x
+          <path
+            fill="#d9d9d9"
+            d="M4 9a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2zm0 4a1 1 0 1 0 0 2h16a1 1 0 1 0 0-2z"
+          />
+        </svg>
+      </div>
+      <div className="questionComp">
+        <div className="questionHeader">
+          <h1>Written question Setting</h1>
+          <div
+            className="deleteQues"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              props.testQuestionsChangeFunc(
+                props.testQuestions.filter(({ id }) => id !== props.id)
+              );
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              width="10px"
+              height="10px"
+            >
+              <path
+                fill="#d9d9d9"
+                d="m3.219 2.154l6.778 6.773l6.706-6.705c.457-.407.93-.164 1.119.04a.777.777 0 0 1-.044 1.035l-6.707 6.704l6.707 6.702c.298.25.298.74.059 1.014c-.24.273-.68.431-1.095.107l-6.745-6.749l-6.753 6.752c-.296.265-.784.211-1.025-.052c-.242-.264-.334-.72-.025-1.042l6.729-6.732l-6.701-6.704c-.245-.27-.33-.764 0-1.075c.33-.311.822-.268.997-.068Z"
+              />
+            </svg>
+          </div>
         </div>
-        <form>
+        <form className="quesInfoForm">
           <input
+            className="quesTitle"
             type="text"
             placeholder="Question input..."
             onInput={(e: ChangeEvent<HTMLInputElement>) => {
@@ -140,19 +165,23 @@ export const WrittenQuestionSetting: React.FC<{
               );
             }}
           />
-          <img src={getQuest()?.imgURL!} width="100px" alt="" />
+          <div className="imgBlock">
+            <img src={getQuest()?.imgURL!} width="100px" alt="" />
+            <input
+              className="imgInput"
+              type="file"
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const file = e.currentTarget.files?.[0];
+                if (file) {
+                  props.testQuestionsChangeFunc(
+                    changeQuestionImgURL(URL.createObjectURL(file))
+                  );
+                }
+              }}
+            />
+          </div>
           <input
-            type="file"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              const file = e.currentTarget.files?.[0];
-              if (file) {
-                props.testQuestionsChangeFunc(
-                  changeQuestionImgURL(URL.createObjectURL(file))
-                );
-              }
-            }}
-          />
-          <input
+            className="gradeInput"
             type="number"
             min={0.1}
             placeholder="Grade amount input..."
@@ -163,11 +192,12 @@ export const WrittenQuestionSetting: React.FC<{
             }}
           />
         </form>
-        <div>
-          <span>Answer: </span>
-          <textarea
+        <div className="answerComp">
+          <div className="answerTitle">Answer: </div>
+          <input
+            className="answerInput"
             placeholder="Answer..."
-            onInput={(e: ChangeEvent<HTMLTextAreaElement>) => {
+            onInput={(e: ChangeEvent<HTMLInputElement>) => {
               props.testQuestionsChangeFunc(
                 changeQuestionAnswer(e.currentTarget.value.toLowerCase().trim())
               );

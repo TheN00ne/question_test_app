@@ -6,14 +6,19 @@ export const Switcher: React.FC<{
   switchFunc: (value: boolean) => void;
 }> = (props) => {
   return (
-    <div>
-      <p>{props.info}</p>
+    <div className={"switcherComp"}>
+      <p className={"switcherText"}>{props.info}</p>
       <div
+        className={"switcher"}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           props.switchFunc(!props.switchValue);
         }}
       >
-        <div>{props.switchValue == true ? "|" : "O"}</div>
+        <div
+          className={`switcherBall ${
+            props.switchValue == true ? "switcherBallOn" : null
+          }`}
+        ></div>
       </div>
     </div>
   );

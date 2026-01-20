@@ -24,7 +24,7 @@ export const PassWrittenQuestion: React.FC<
       currentTest?.questionArr.filter((ques) => ques.type == "Written");
 
     const currentQues: iWrittenQuestion | undefined = writtenQuestions?.find(
-      (ques) => ques.id == props.id
+      (ques) => ques.id == props.id,
     );
 
     if (currentQues) {
@@ -44,9 +44,14 @@ export const PassWrittenQuestion: React.FC<
   }, [mark]);
 
   return (
-    <div>
-      <div>
+    <div className="quesComp">
+      <div className="quesHeader">
         <h2>{props.question}</h2>
+        {!props.isHiddenCorrectAnswers ? (
+          <div className="grade">Mark: {Math.round(mark * 100) / 100}</div>
+        ) : null}
+      </div>
+      <div className="imgBlock">
         <img
           src={`${props.imgURL}`}
           alt={`${props.id} written question image`}
@@ -85,9 +90,6 @@ export const PassWrittenQuestion: React.FC<
             <div>{props.correctAnswer}</div>
           )}
         </div>
-        {!props.isHiddenCorrectAnswers ? (
-          <div>Mark: {Math.round(mark * 100) / 100}</div>
-        ) : null}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export const PassedMatchedQuestion: React.FC<
       currentTest?.questionArr.filter((ques) => ques.type == "Match");
 
     const currentQues: iMatchQuestion | undefined = matchQuests?.find(
-      (ques) => ques.id == props.id
+      (ques) => ques.id == props.id,
     );
 
     if (currentQues) {
@@ -61,37 +61,84 @@ export const PassedMatchedQuestion: React.FC<
   }, [mark]);
 
   return (
-    <div>
-      <div>
+    <div className="quesComp">
+      <div className="quesHeader">
         <h2>{props.question}</h2>
+        {!props.isHiddenCorrectAnswers ? (
+          <div className="grade">Mark: {Math.round(mark * 100) / 100}</div>
+        ) : null}
+      </div>
+      <div className="imgBlock">
         <img src={`${props.imgURL}`} alt={`${props.id} match question image`} />
       </div>
       <div>
         {props?.pairs.map((pair) => (
-          <div
-            style={
-              !props.isHiddenCorrectAnswers
-                ? {
-                    border: `1px solid ${
-                      pair.userAnswer ==
-                      currentCorrectQuestion?.pairs.find((p) => p.id == pair.id)
-                        ?.answer
-                        ? "green"
-                        : pair.userAnswer == "---"
-                        ? "grey"
-                        : "red"
-                    }`,
-                  }
-                : undefined
-            }
-          >
-            <div>{pair.option}</div>
+          <div className="passedPairComp">
+            <div
+              className="passedOption"
+              style={
+                !props.isHiddenCorrectAnswers
+                  ? {
+                      backgroundColor: `${
+                        pair.userAnswer ==
+                        currentCorrectQuestion?.pairs.find(
+                          (p) => p.id == pair.id,
+                        )?.answer
+                          ? "green"
+                          : pair.userAnswer == "---"
+                            ? "#7f809f"
+                            : "red"
+                      }`,
+                    }
+                  : undefined
+              }
+            >
+              {pair.option}
+            </div>
             {pair.userAnswer ==
             currentCorrectQuestion?.pairs.find((p) => p.id == pair.id)
               ?.answer ? (
-              <div>{pair.userAnswer}</div>
+              <div
+                className="passedOption"
+                style={
+                  !props.isHiddenCorrectAnswers
+                    ? {
+                        backgroundColor: `${
+                          pair.userAnswer ==
+                          currentCorrectQuestion?.pairs.find(
+                            (p) => p.id == pair.id,
+                          )?.answer
+                            ? "green"
+                            : pair.userAnswer == "---"
+                              ? "#7f809f"
+                              : "red"
+                        }`,
+                      }
+                    : undefined
+                }
+              >
+                {pair.userAnswer}
+              </div>
             ) : (
-              <div>
+              <div
+                className="passedOption"
+                style={
+                  !props.isHiddenCorrectAnswers
+                    ? {
+                        backgroundColor: `${
+                          pair.userAnswer ==
+                          currentCorrectQuestion?.pairs.find(
+                            (p) => p.id == pair.id,
+                          )?.answer
+                            ? "green"
+                            : pair.userAnswer == "---"
+                              ? "#7f809f"
+                              : "red"
+                        }`,
+                      }
+                    : undefined
+                }
+              >
                 {!props.isHiddenCorrectAnswers ? (
                   <div>
                     <s>{pair.userAnswer}</s>
@@ -99,7 +146,7 @@ export const PassedMatchedQuestion: React.FC<
                       <b>
                         {
                           currentCorrectQuestion?.pairs.find(
-                            (p) => p.id == pair.id
+                            (p) => p.id == pair.id,
                           )?.answer
                         }
                       </b>
@@ -113,9 +160,6 @@ export const PassedMatchedQuestion: React.FC<
           </div>
         ))}
       </div>
-      {!props.isHiddenCorrectAnswers ? (
-        <div>Mark:{Math.round(mark * 100) / 100}</div>
-      ) : null}
     </div>
   );
 };

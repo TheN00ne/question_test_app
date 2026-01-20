@@ -9,7 +9,7 @@ import { MultipleQuestion } from "./MultipleQuestion";
 import { MatchQuestion } from "./MatchQuestion";
 import { WrittenQuestion } from "./WrittenQuestion";
 
-export const TestPageView: React.FC = () => {
+const TestPageView: React.FC = () => {
   const { id } = useParams();
 
   let { testArr }: iInitialState = useSelector((state: RootState) => state);
@@ -112,94 +112,119 @@ export const TestPageView: React.FC = () => {
     <div>
       <Header headerText="Tests" />
       <div>
-        <div>
-          <h1>{emptyCurrentTest?.title}</h1>
-          <p>{emptyCurrentTest?.description}</p>
-          <img
-            src={`${emptyCurrentTest?.imgURL}`}
-            alt={`${emptyCurrentTest?.id} test`}
-          />
-          <div>{emptyCurrentTest?.totalMark}</div>
-          {emptyCurrentTest?.isSetTimer ? (
-            <div>
-              <span>{hoursAmount}</span>:<span>{minutesAmount}</span>:
-              <span>{secondsAmount}</span>
+        <div className="infoBlock">
+          <div className="headerInfo">
+            <div className="totalMark">
+              Total mark: {emptyCurrentTest?.totalMark}
             </div>
-          ) : null}
+            {emptyCurrentTest?.isSetTimer ? (
+              <div className="timer">
+                <span>
+                  {hoursAmount! > 9 ? hoursAmount : `0${hoursAmount}`}
+                </span>
+                :
+                <span>
+                  {minutesAmount! > 9 ? minutesAmount : `0${minutesAmount}`}
+                </span>
+                :
+                <span>
+                  {secondsAmount! > 9 ? secondsAmount : `0${secondsAmount}`}
+                </span>
+              </div>
+            ) : null}
+          </div>
+          <div className="bodyInfo">
+            <h1>{emptyCurrentTest?.title}</h1>
+            <p>{emptyCurrentTest?.description}</p>
+            <img
+              src={`${emptyCurrentTest?.imgURL}`}
+              alt={`${emptyCurrentTest?.id} test`}
+            />
+          </div>
         </div>
-        {!emptyCurrentTest?.isHiddenQuestions
-          ? emptyCurrentTest?.questionArr.map((question) => {
-              if (question.type == "Simple") {
-                return (
-                  <SimpleQuestion
-                    key={question.id}
-                    id={question.id}
-                    question={question.question}
-                    type={question.type}
-                    imgURL={question.imgURL}
-                    correctOptionId={question.correctOptionId}
-                    gradeAmount={question.gradeAmount}
-                    optionsArr={question.optionsArr}
-                    isActive={false}
-                    currentTest={emptyCurrentTest}
-                    setCurrentTest={setEmptyCurrentTest}
-                  />
-                );
-              } else if (question.type == "Multiple") {
-                return (
-                  <MultipleQuestion
-                    key={question.id}
-                    id={question.id}
-                    question={question.question}
-                    type={question.type}
-                    imgURL={question.imgURL}
-                    correctOptionsId={question.correctOptionsId}
-                    isHardModeOn={question.isHardModeOn}
-                    gradeAmount={question.gradeAmount}
-                    optionsArr={question.optionsArr}
-                    isActive={false}
-                    currentTest={emptyCurrentTest}
-                    setCurrentTest={setEmptyCurrentTest}
-                  />
-                );
-              } else if (question.type == "Match") {
-                return (
-                  <MatchQuestion
-                    key={question.id}
-                    id={question.id}
-                    question={question.question}
-                    type={question.type}
-                    imgURL={question.imgURL}
-                    pairs={question.pairs}
-                    isHardModeOn={question.isHardModeOn}
-                    gradeAmount={question.gradeAmount}
-                    isActive={false}
-                    currentTest={emptyCurrentTest}
-                    setCurrentTest={setEmptyCurrentTest}
-                  />
-                );
-              } else {
-                return (
-                  <WrittenQuestion
-                    key={question.id}
-                    id={question.id}
-                    question={question.question}
-                    type={question.type}
-                    imgURL={question.imgURL}
-                    gradeAmount={question.gradeAmount}
-                    correctAnswer={question.correctAnswer}
-                    isActive={false}
-                    currentTest={emptyCurrentTest}
-                    setCurrentTest={setEmptyCurrentTest}
-                  />
-                );
-              }
-            })
-          : null}
-        <Link to={`/test/${id}`} state={{ test: emptyCurrentTest }}>
-          Start test
-        </Link>
+        <div className="questionContainer">
+          {!emptyCurrentTest?.isHiddenQuestions
+            ? emptyCurrentTest?.questionArr.map((question) => {
+                if (question.type == "Simple") {
+                  return (
+                    <SimpleQuestion
+                      key={question.id}
+                      id={question.id}
+                      question={question.question}
+                      type={question.type}
+                      imgURL={question.imgURL}
+                      correctOptionId={question.correctOptionId}
+                      gradeAmount={question.gradeAmount}
+                      optionsArr={question.optionsArr}
+                      isActive={false}
+                      currentTest={emptyCurrentTest}
+                      setCurrentTest={setEmptyCurrentTest}
+                    />
+                  );
+                } else if (question.type == "Multiple") {
+                  return (
+                    <MultipleQuestion
+                      key={question.id}
+                      id={question.id}
+                      question={question.question}
+                      type={question.type}
+                      imgURL={question.imgURL}
+                      correctOptionsId={question.correctOptionsId}
+                      isHardModeOn={question.isHardModeOn}
+                      gradeAmount={question.gradeAmount}
+                      optionsArr={question.optionsArr}
+                      isActive={false}
+                      currentTest={emptyCurrentTest}
+                      setCurrentTest={setEmptyCurrentTest}
+                    />
+                  );
+                } else if (question.type == "Match") {
+                  return (
+                    <MatchQuestion
+                      key={question.id}
+                      id={question.id}
+                      question={question.question}
+                      type={question.type}
+                      imgURL={question.imgURL}
+                      pairs={question.pairs}
+                      isHardModeOn={question.isHardModeOn}
+                      gradeAmount={question.gradeAmount}
+                      isActive={false}
+                      currentTest={emptyCurrentTest}
+                      setCurrentTest={setEmptyCurrentTest}
+                    />
+                  );
+                } else {
+                  return (
+                    <WrittenQuestion
+                      key={question.id}
+                      id={question.id}
+                      question={question.question}
+                      type={question.type}
+                      imgURL={question.imgURL}
+                      gradeAmount={question.gradeAmount}
+                      correctAnswer={question.correctAnswer}
+                      isActive={false}
+                      currentTest={emptyCurrentTest}
+                      setCurrentTest={setEmptyCurrentTest}
+                    />
+                  );
+                }
+              })
+            : null}
+        </div>
+        <div className="bottomComp">
+          <Link
+            className="testBtn"
+            to={`/test/${id}`}
+            state={{ test: emptyCurrentTest }}
+          >
+            Start test
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
+
+export default TestPageView;

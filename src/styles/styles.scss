@@ -1,0 +1,1163 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+
+$mainColor: #453a6d;
+$secondColor: #7f809f;
+$whiteColor: #d9d9d9;
+$activeColor: #9e24ff;
+
+body {
+  margin: 0;
+  background-color: #1e1e1e;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.header {
+  display: grid;
+  height: 80px;
+  background-color: $mainColor;
+  margin-bottom: 20px;
+
+  .header-container {
+    width: 100%;
+    justify-self: center;
+
+    a {
+      display: inline-block;
+      position: absolute;
+      background-color: $secondColor;
+      text-align: center;
+      padding: 5px;
+      margin: 26px;
+      border-radius: 10px;
+      width: 80px;
+      text-decoration: none;
+      font-weight: bold;
+      color: white;
+      transition-duration: 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+    }
+  }
+}
+
+main {
+  display: grid;
+  grid-template-rows: repeat(auto, 4);
+  min-height: 1000px;
+}
+
+.search {
+  justify-self: center;
+  width: 40vw;
+  height: 30px;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  border: 3px solid $mainColor;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+
+  .searchLine {
+    background-color: #d9d9d9;
+    border-width: 0;
+    border-right: none;
+    display: inline;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 5px;
+    color: $mainColor;
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: $mainColor;
+    }
+  }
+
+  .searchBtn {
+    width: 40px;
+    height: 20px;
+    margin: 5px;
+    border: 1px solid transparent;
+    display: inline;
+    background-color: $mainColor;
+    border-radius: 20px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+
+    &:hover {
+      background-color: $activeColor;
+    }
+
+    .searchBtnIcon {
+      width: 15px;
+      height: 15px;
+      transition-duration: 0.3s;
+      &:hover {
+        transform: translate(0px, 1px);
+      }
+    }
+  }
+}
+
+.itemsContainer {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bottomPart {
+  display: grid;
+}
+
+.showMoreBtn {
+  width: 100px;
+  align-self: end;
+  justify-self: end;
+  margin: 10px;
+  background-color: $secondColor;
+  border: 2px solid black;
+  border-radius: 20px;
+  color: $whiteColor;
+  cursor: pointer;
+  transition-duration: 0.2s;
+
+  &:hover {
+    transform: translateY(3px);
+    background-color: $activeColor;
+  }
+}
+
+.createTestBtn {
+  position: fixed;
+  left: calc(50vw - 30px);
+  bottom: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: $mainColor;
+  border: 2px solid black;
+  border-radius: 20px;
+  color: $whiteColor;
+  margin: 5px;
+  padding: 5px;
+  text-decoration: none;
+  text-align: center;
+  transition-duration: 0.2s;
+  font-size: 18px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: $activeColor;
+  }
+}
+
+footer {
+  height: 120px;
+  background-color: #090212;
+}
+
+.testIcon {
+  width: 20vw;
+  display: grid;
+  grid-template-rows: 80px 300px 80px;
+  background-color: $secondColor;
+  border: 4px solid $mainColor;
+  height: 460px;
+  border-radius: 20px;
+
+  .headerBlock {
+    padding: 3px;
+    display: grid;
+    grid-template-columns: 2fr 6fr 2fr;
+    background-color: $whiteColor;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom: 2px solid $mainColor;
+
+    .timerBlock {
+      align-self: start;
+      margin: 3px;
+      padding: 3px;
+      background-color: $mainColor;
+      color: $whiteColor;
+      border-radius: 12px;
+    }
+
+    .title {
+      width: 100%;
+      margin-top: 3px;
+      text-align: center;
+      color: $secondColor;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-wrap: nowrap;
+    }
+
+    .deleteBtn {
+      justify-self: end;
+      text-align: center;
+      margin: 3px;
+      padding: 3px;
+      width: 16px;
+      height: 16px;
+      background-color: $mainColor;
+      border-radius: 100%;
+      cursor: pointer;
+      transition-duration: 0.3s;
+
+      &:hover {
+        background-color: $activeColor;
+      }
+
+      .deleteIcon {
+        fill: $whiteColor;
+        transition-duration: 0.3s;
+
+        &:hover {
+          transform: translateY(1px);
+        }
+      }
+    }
+  }
+
+  .bodyBlock {
+    display: grid;
+    border-top: 2px solid $mainColor;
+    border-bottom: 2px solid $mainColor;
+
+    .testImg {
+      justify-self: center;
+      width: 100%;
+      height: auto;
+      min-height: 160px;
+    }
+
+    .testDescription {
+      text-align: center;
+      max-height: 80px;
+      padding: 5px;
+      overflow: auto;
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+  }
+
+  .footerBlock {
+    display: grid;
+    grid-template-columns: 5fr 5fr;
+    background-color: $whiteColor;
+    border-top: 2px solid $mainColor;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+
+    .amountInfo,
+    .openTestBtn {
+      background-color: $mainColor;
+      border: 2px solid $secondColor;
+      border-radius: 20px;
+      color: $whiteColor;
+      text-align: center;
+      padding: 5px;
+    }
+
+    .amountInfo {
+      font-size: 10px;
+      justify-self: start;
+      margin: 8px;
+    }
+
+    .openTestBtn {
+      justify-self: center;
+      align-self: center;
+      width: 80%;
+      text-decoration: none;
+      transition-duration: 0.3s;
+      margin: 3px;
+
+      &:hover {
+        background-color: $activeColor;
+        transform: translateY(1px);
+      }
+    }
+  }
+}
+
+.testForm {
+  display: grid;
+  grid-template-rows: 35px auto 300px;
+  gap: 10px;
+
+  .titleInput,
+  .descriptionInput {
+    justify-self: center;
+    background-color: $whiteColor;
+    color: $secondColor;
+    border-radius: 20px;
+    border: 2px solid $mainColor;
+    transition-duration: 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: $activeColor;
+    }
+
+    &::placeholder {
+      color: $secondColor;
+    }
+  }
+
+  .titleInput {
+    width: 25%;
+    text-align: center;
+  }
+
+  .descriptionInput {
+    padding: 5px;
+    min-width: 30%;
+    max-width: 60%;
+    min-height: 60px;
+    max-height: 250px;
+    transition-property: border;
+    border-bottom-right-radius: 0px;
+  }
+
+  .imageBlock {
+    justify-self: center;
+    display: grid;
+    width: 25%;
+
+    .testImg {
+      justify-self: center;
+      align-self: center;
+      width: 100%;
+      background-color: $whiteColor;
+      min-height: 200px;
+      height: auto;
+      border: 2px solid $mainColor;
+      border-radius: 20px;
+    }
+  }
+}
+
+.imgInput {
+  justify-self: end;
+  align-self: start;
+  background-color: $whiteColor;
+  border: 2px solid $mainColor;
+  border-radius: 20px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+
+  &:hover {
+    border-color: $activeColor;
+    transform: scale(1.05);
+  }
+}
+
+.switchersMenu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: $secondColor;
+  min-height: 150px;
+  height: auto;
+}
+
+.switcherBlock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .timer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    justify-self: center;
+    align-self: center;
+    background-color: $whiteColor;
+    border: 2px solid $mainColor;
+    border-radius: 20px;
+    padding: 8px;
+
+    .timerDisplay {
+      background-color: $mainColor;
+      border-radius: 20px;
+      border: none;
+      color: $whiteColor;
+      outline: none;
+      padding: 5px;
+
+      &:hover {
+        background-color: $activeColor;
+      }
+    }
+  }
+}
+
+.switcherComp {
+  width: 100%;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  .switcherText {
+    align-self: center;
+    justify-self: end;
+    color: $mainColor;
+    font-weight: bold;
+  }
+
+  .switcher {
+    display: grid;
+    align-self: center;
+    height: 30px;
+    padding: 5px;
+    width: 90px;
+    background-color: white;
+    border: 3px solid $mainColor;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:has(.switcherBallOn) {
+      border-color: $activeColor;
+    }
+  }
+
+  .switcherBall {
+    align-self: center;
+    background-color: $mainColor;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    transition-duration: 0.2s;
+  }
+
+  .switcherBallOn {
+    box-shadow: 0px 0px 10px $activeColor;
+    background-color: $activeColor;
+    transform: translateX(60px);
+  }
+}
+
+.createTestBlock {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 10px;
+
+  .toolsBar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-self: center;
+    background-color: $whiteColor;
+    border: 2px solid $mainColor;
+    border-radius: 20px;
+    width: 20%;
+    height: 30px;
+
+    .toolOption,
+    .toolOptionActive {
+      display: grid;
+      justify-self: center;
+      align-self: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 10px;
+      transition-duration: 0.2s;
+      cursor: pointer;
+      border-width: 2px;
+      border-style: solid;
+
+      svg {
+        align-self: center;
+        justify-self: center;
+      }
+    }
+
+    .toolOption {
+      background-color: $mainColor;
+      border-color: $mainColor;
+
+      &:hover {
+        border-color: $activeColor;
+      }
+    }
+
+    .toolOptionActive {
+      background-color: $activeColor;
+      border-color: $activeColor;
+    }
+
+    .addOption {
+      display: grid;
+      background-color: $mainColor;
+      border-bottom-right-radius: 18px;
+      border-top-right-radius: 18px;
+      transition-duration: 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $activeColor;
+      }
+
+      &:hover {
+        border-color: $activeColor;
+      }
+
+      svg {
+        justify-self: center;
+        align-self: center;
+      }
+    }
+  }
+
+  .createOptionBtnAnab,
+  .createOptionBtnDisab {
+    color: $whiteColor;
+    padding: 10px;
+    width: 140px;
+    border-radius: 20px;
+    justify-self: end;
+    align-self: center;
+    text-align: center;
+    margin: 20px;
+    transition-duration: 0.3s;
+  }
+
+  .createOptionBtnAnab {
+    background-color: $mainColor;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $activeColor;
+    }
+  }
+
+  .createOptionBtnDisab {
+    background-color: $secondColor;
+  }
+}
+
+.questionBlock {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+  gap: 10px;
+  width: 40%;
+
+  .dragIcon {
+    justify-self: end;
+    cursor: pointer;
+  }
+}
+
+.questionContainer {
+  display: grid;
+  margin: 10px;
+  gap: 10px;
+}
+
+.questionComp {
+  display: grid;
+  background-color: $whiteColor;
+  border: 2px solid $mainColor;
+  border-radius: 10px;
+
+  .questionHeader {
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+
+    h1 {
+      text-align: center;
+    }
+  }
+
+  .deleteQues {
+    justify-self: end;
+    display: grid;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    background-color: $mainColor;
+    border-radius: 20px;
+    cursor: pointer;
+    transition-duration: 0.2s;
+
+    &:hover {
+      background-color: $activeColor;
+    }
+
+    svg {
+      justify-self: center;
+      align-self: center;
+    }
+  }
+}
+
+.quesInfoForm {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+
+  .quesTitle {
+    width: 60%;
+    padding: 5px;
+    background-color: $secondColor;
+    border: 2px solid $mainColor;
+    border-radius: 20px;
+    color: $whiteColor;
+    outline: none;
+    transition-duration: 0.2s;
+
+    &::placeholder {
+      color: $whiteColor;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $activeColor;
+    }
+  }
+
+  .imgBlock {
+    display: grid;
+    width: 80%;
+    gap: 5px;
+
+    img {
+      width: 100%;
+      min-height: 150px;
+      background-color: $secondColor;
+      border: 2px solid $mainColor;
+      border-radius: 10px;
+    }
+  }
+
+  .hardModeContainer {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    width: 70%;
+  }
+
+  .gradeInput {
+    width: 30%;
+    padding: 5px;
+    background-color: $secondColor;
+    border: 2px solid $mainColor;
+    border-radius: 20px;
+    color: $whiteColor;
+
+    &:hover,
+    &:focus {
+      border-color: $activeColor;
+    }
+
+    &::placeholder {
+      color: $whiteColor;
+    }
+  }
+}
+
+.optionComp {
+  margin: 10px;
+  width: 90%;
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  gap: 5px;
+
+  .dragOption {
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+  }
+
+  .option {
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+    gap: 10px;
+    background-color: $secondColor;
+    border: 2px solid $mainColor;
+    border-radius: 20px;
+
+    .textInp {
+      align-self: center;
+      padding: 3px;
+      border-radius: 20px;
+      outline: none;
+      border: 2px solid $mainColor;
+
+      &:hover,
+      &:focus {
+        border-color: $activeColor;
+      }
+    }
+  }
+
+  .deleteOpt {
+    display: grid;
+    width: 15px;
+    height: 15px;
+    background-color: $mainColor;
+    border-radius: 15px;
+    padding: 5px;
+    justify-self: end;
+    align-self: center;
+    cursor: pointer;
+    transition-duration: 0.2s;
+
+    &:hover {
+      background-color: $activeColor;
+    }
+
+    svg {
+      justify-self: center;
+      align-self: center;
+    }
+  }
+
+  .optionPair {
+    width: 95%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    .inputOption {
+      width: 100%;
+      height: 200px;
+      background-color: $secondColor;
+      border: 3px solid $mainColor;
+      border-radius: 20px;
+      outline: none;
+      padding: 5px;
+      text-align: center;
+      word-break: break-all;
+      color: $mainColor;
+      font-weight: bold;
+
+      &:focus,
+      &:hover {
+        border-color: $activeColor;
+      }
+
+      &::placeholder {
+        color: $mainColor;
+      }
+    }
+
+    .optionEmpty {
+      width: 100%;
+      height: 200px;
+      border: 3px dashed $mainColor;
+      border-radius: 20px;
+      outline: none;
+      padding: 5px;
+
+      &::placeholder {
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.radInp,
+.checkInp {
+  justify-self: end;
+  align-self: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.checkInp {
+  border-radius: 3px;
+}
+
+.createOptComp {
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  gap: 5px;
+  padding: 10px;
+
+  .createOptInp {
+    background-color: $mainColor;
+    border-radius: 20px;
+    padding: 5px;
+    color: $whiteColor;
+    outline: none;
+    border: none;
+    transition-duration: 0.2s;
+
+    &::placeholder {
+      color: $whiteColor;
+    }
+
+    &:focus {
+      background-color: $activeColor;
+    }
+  }
+}
+
+.createMatchOptComp {
+  display: grid;
+  grid-template-columns: 5fr 5fr 1fr;
+  gap: 5px;
+  padding: 10px;
+
+  .matchInput {
+    background-color: $mainColor;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    padding: 5px;
+    color: $whiteColor;
+    transition-duration: 0.2s;
+
+    &::placeholder {
+      color: $whiteColor;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $activeColor;
+    }
+  }
+}
+
+.answerComp {
+  width: 70%;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+
+  .answerTitle {
+    background-color: $mainColor;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 5px;
+    color: $whiteColor;
+  }
+
+  .answerInput {
+    background-color: $secondColor;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 5px;
+    color: $whiteColor;
+    border: none;
+    outline: none;
+    transition-duration: 0.2s;
+
+    &::placeholder {
+      color: $whiteColor;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $activeColor;
+    }
+  }
+}
+
+.createOptBtn {
+  background-color: $mainColor;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  padding: 5px;
+  cursor: pointer;
+  transition-duration: 0.2s;
+
+  &:hover {
+    background-color: $activeColor;
+  }
+}
+
+.optionsCount {
+  width: 50px;
+  background-color: $mainColor;
+  color: $whiteColor;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+  float: right;
+}
+
+.getInfo {
+  position: relative;
+  display: grid;
+
+  .circleInfo {
+    justify-self: center;
+    align-self: center;
+  }
+
+  .textInfo {
+    position: absolute;
+    top: 55%;
+    left: 55%;
+    background-color: $whiteColor;
+    border: 2px solid $mainColor;
+    border-radius: 0px 10px 10px 10px;
+    padding: 10px;
+    color: $mainColor;
+    width: 200px;
+    height: auto;
+  }
+}
+
+.infoBlock {
+  display: grid;
+
+  .headerInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .totalMark {
+      margin: 10px;
+      justify-self: start;
+      text-align: center;
+      background-color: $mainColor;
+      border-radius: 20px;
+      padding: 10px;
+      color: $whiteColor;
+      min-width: 40px;
+    }
+
+    .timer {
+      margin: 10px;
+      justify-self: end;
+      background-color: white;
+      border-radius: 20px;
+      padding: 10px;
+      color: black;
+      min-width: 40px;
+    }
+  }
+
+  .bodyInfo {
+    display: grid;
+
+    h1 {
+      justify-self: center;
+      text-align: center;
+      color: $whiteColor;
+    }
+
+    p {
+      width: 90%;
+      justify-self: center;
+      background-color: $whiteColor;
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px;
+    }
+
+    img {
+      width: 40%;
+      min-height: 300px;
+      justify-self: center;
+      background-color: $secondColor;
+      border: 2px solid $mainColor;
+      border-radius: 10px;
+    }
+  }
+}
+
+.quesComp {
+  background-color: $whiteColor;
+  width: 40%;
+  border-radius: 20px;
+  padding: 10px;
+
+  .quesHeader {
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    gap: 10px;
+
+    h2 {
+      justify-self: start;
+      width: 90%;
+      color: $secondColor;
+    }
+
+    .grade {
+      justify-self: end;
+      align-self: center;
+      background-color: $secondColor;
+      border: 2px solid $mainColor;
+      border-radius: 20px;
+      padding: 10px;
+      color: $whiteColor;
+      margin: 10px;
+      text-align: center;
+    }
+  }
+
+  .imgBlock {
+    display: grid;
+    width: 50%;
+
+    img {
+      width: 100%;
+      min-height: 150px;
+      background-color: $secondColor;
+      border: 2px solid $mainColor;
+      border-radius: 10px;
+    }
+  }
+
+  .optionsComp {
+    display: grid;
+    gap: 5px;
+    width: 70%;
+    margin-top: 10px;
+
+    .optionInput {
+      display: grid;
+      grid-template-columns: 8fr 1fr;
+      background-color: $secondColor;
+      border: 2px solid $mainColor;
+      border-radius: 10px;
+      padding: 5px;
+    }
+  }
+
+  .pairsComp {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    width: 70%;
+    margin-top: 10px;
+
+    .userAnsBlock {
+      display: grid;
+      gap: 5px;
+      .userAns {
+        background-color: $secondColor;
+        border: 2px dashed $mainColor;
+        text-align: center;
+        color: $mainColor;
+        height: 50px;
+      }
+    }
+
+    .matchOptBlock,
+    .matchAnsBlock {
+      display: grid;
+      gap: 5px;
+      .matchOpt,
+      .matchAns {
+        background-color: $mainColor;
+        border: 2px solid $secondColor;
+        text-align: center;
+        color: $secondColor;
+        height: 50px;
+      }
+    }
+  }
+
+  .writtenAns {
+    margin-top: 10px;
+    background-color: $secondColor;
+    border: 2px solid $mainColor;
+    border-radius: 10px;
+    border-bottom-right-radius: none;
+    color: $mainColor;
+    min-width: 20%;
+    max-width: 95%;
+    max-height: 200px;
+    padding: 5px;
+
+    &::placeholder {
+      color: $mainColor;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $activeColor;
+    }
+  }
+}
+
+.bottomComp {
+  display: grid;
+}
+
+.testBtn,
+.totalMark {
+  justify-self: end;
+  margin: 20px;
+  padding: 10px;
+  background-color: $mainColor;
+  border: 2px solid $whiteColor;
+  border-radius: 20px;
+  color: $whiteColor;
+  text-align: center;
+}
+
+.testBtn {
+  text-decoration: none;
+  transition-duration: 0.2s;
+
+  &:hover {
+    background-color: $activeColor;
+    transform: translateY(2px);
+  }
+}
+
+.timeoutComp {
+  display: grid;
+  width: 50%;
+  height: 30%;
+  position: fixed;
+  top: 35%;
+  left: 25%;
+  background-color: $secondColor;
+  border: 3px solid $mainColor;
+  border-radius: 20px;
+
+  h1 {
+    text-align: center;
+    color: $whiteColor;
+  }
+
+  .testBtn {
+    align-self: center;
+    justify-self: center;
+  }
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 75%;
+  background-color: gray;
+}
+
+.passedPairComp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px;
+
+  .passedOption {
+    height: 50px;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid $secondColor;
+    border-radius: 20px;
+  }
+}
+
+//Дороби simpleQues в passed

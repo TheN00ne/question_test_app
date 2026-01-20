@@ -1,5 +1,5 @@
 import React from "react";
-import { iMatchPair, iMatchQuestion, iQuestion, iTest } from "../types";
+import { iMatchQuestion, iQuestion, iTest } from "../types";
 
 export const MatchQuestion: React.FC<
   iMatchQuestion & {
@@ -13,7 +13,7 @@ export const MatchQuestion: React.FC<
     quesId: number,
     fromPairId: number,
     fromField: "answer" | "userAnswer",
-    value: string
+    value: string,
   ) => {
     const dragData = JSON.stringify({
       quesId,
@@ -31,7 +31,7 @@ export const MatchQuestion: React.FC<
       toPairId: number;
       toField: "answer" | "userAnswer";
       value: string;
-    }
+    },
   ): iTest => {
     const fromPair: {
       quesId: number;
@@ -78,29 +78,35 @@ export const MatchQuestion: React.FC<
         } else {
           return ques;
         }
-      }
+      },
     );
     return { ...props.currentTest, questionArr: newQuesArr };
   };
 
   return (
-    <div>
-      <div>
+    <div className="quesComp">
+      <div className="quesHeader">
         <h2>{props.question}</h2>
+        <div className="grade">Mark: {props.gradeAmount}</div>
+      </div>
+      <div className="imgBlock">
         <img
           src={`${props.imgURL}`}
           alt={`${props.id} multiple question image`}
         />
-        <div>{props.gradeAmount}</div>
       </div>
-      <div>
-        {props.pairs.map((pair) => (
-          <div>
-            <div>{pair.option}</div>
+      <div className="pairsComp">
+        <div className="matchOptBlock">
+          {props.pairs.map((pair) => (
+            <div className="matchOpt">{pair.option}</div>
+          ))}
+        </div>
+        <div className="userAnsBlock">
+          {props.pairs.map((pair) => (
             <div
+              className="userAns"
               draggable={props.isActive && pair.userAnswer !== "---"}
               onDragStart={(e) => {
-                console.log("aaa");
                 dragBlock(e, props.id, pair.id, "userAnswer", pair.userAnswer);
               }}
               onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
@@ -113,20 +119,20 @@ export const MatchQuestion: React.FC<
                     toPairId: pair.id,
                     toField: "userAnswer",
                     value: pair.userAnswer,
-                  })
+                  }),
                 )
               }
             >
               {pair.userAnswer}
             </div>
-          </div>
-        ))}
-        {props.pairs.map((pair) => (
-          <div>
+          ))}
+        </div>
+        <div className="matchAnsBlock">
+          {props.pairs.map((pair) => (
             <div
+              className="matchAns"
               draggable={props.isActive && pair.answer !== "---"}
               onDragStart={(e: React.DragEvent<HTMLDivElement>) => {
-                console.log("aaa");
                 dragBlock(e, props.id, pair.id, "answer", pair.answer);
               }}
               onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
@@ -139,14 +145,14 @@ export const MatchQuestion: React.FC<
                     toPairId: pair.id,
                     toField: "answer",
                     value: pair.answer,
-                  })
+                  }),
                 )
               }
             >
               {pair.answer}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

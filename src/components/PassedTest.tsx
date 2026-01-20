@@ -9,7 +9,7 @@ import { PassedMultipleQuestion } from "./PassedMultipleQuestion";
 import { PassedMatchedQuestion } from "./PassedMatchQuestion";
 import { PassWrittenQuestion } from "./PassedWrittenQuestion";
 
-export const PassedTest = () => {
+const PassedTest: React.FC = () => {
   const { state } = useLocation();
   const { id } = useParams();
 
@@ -18,10 +18,10 @@ export const PassedTest = () => {
   const [passedTest, setPassedTest] = useState<iTest | undefined>(undefined);
 
   const [secondsAmount, setSecondsAmount] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   const [minutesAmount, setMinutesAmount] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   const [hoursAmount, setHoursAmount] = useState<number | undefined>(undefined);
 
@@ -70,90 +70,111 @@ export const PassedTest = () => {
     <div>
       <Header headerText="Tests" />
       <div>
-        <div>
-          <h1>{passedTest?.title}</h1>
-          <p>{passedTest?.description}</p>
-          <img src={`${passedTest?.imgURL}`} alt={`${passedTest?.id} test`} />
-          <div>{passedTest?.totalMark}</div>
-          {currentTest?.isSetTimer ? (
-            <div>
-              <span>{hoursAmount}</span>:<span>{minutesAmount}</span>:
-              <span>{secondsAmount}</span>
+        <div className="infoBlock">
+          <div className="headerInfo">
+            <div className="totalMark">
+              Total mark: {currentTest?.totalMark}
             </div>
-          ) : null}
+            {currentTest?.isSetTimer ? (
+              <div className="timer">
+                <span>
+                  {hoursAmount! > 9 ? hoursAmount : `0${hoursAmount}`}
+                </span>
+                :
+                <span>
+                  {minutesAmount! > 9 ? minutesAmount : `0${minutesAmount}`}
+                </span>
+                :
+                <span>
+                  {secondsAmount! > 9 ? secondsAmount : `0${secondsAmount}`}
+                </span>
+              </div>
+            ) : null}
+          </div>
+          <div className="bodyInfo">
+            <h1>{passedTest?.title}</h1>
+            <p>{passedTest?.description}</p>
+            <img src={`${passedTest?.imgURL}`} alt={`${passedTest?.id} test`} />
+          </div>
         </div>
       </div>
-      {passedTest?.questionArr.map((question) => {
-        if (question.type == "Simple") {
-          return (
-            <PassedSimpleQuestion
-              key={question.id}
-              id={question.id}
-              question={question.question}
-              type={question.type}
-              imgURL={question.imgURL}
-              correctOptionId={question.correctOptionId}
-              gradeAmount={question.gradeAmount}
-              optionsArr={question.optionsArr}
-              currentTest={passedTest}
-              isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
-              setTotalMark={setTotalMark}
-            />
-          );
-        } else if (question.type == "Multiple") {
-          return (
-            <PassedMultipleQuestion
-              key={question.id}
-              id={question.id}
-              question={question.question}
-              type={question.type}
-              imgURL={question.imgURL}
-              correctOptionsId={question.correctOptionsId}
-              isHardModeOn={question.isHardModeOn}
-              gradeAmount={question.gradeAmount}
-              optionsArr={question.optionsArr}
-              currentTest={passedTest}
-              isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
-              setTotalMark={setTotalMark}
-            />
-          );
-        } else if (question.type == "Match") {
-          return (
-            <PassedMatchedQuestion
-              key={question.id}
-              id={question.id}
-              question={question.question}
-              type={question.type}
-              imgURL={question.imgURL}
-              pairs={question.pairs}
-              isHardModeOn={question.isHardModeOn}
-              gradeAmount={question.gradeAmount}
-              currentTest={passedTest}
-              isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
-              setTotalMark={setTotalMark}
-            />
-          );
-        } else {
-          return (
-            <PassWrittenQuestion
-              key={question.id}
-              id={question.id}
-              question={question.question}
-              type={question.type}
-              imgURL={question.imgURL}
-              gradeAmount={question.gradeAmount}
-              correctAnswer={question.correctAnswer}
-              currentTest={passedTest}
-              isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
-              setTotalMark={setTotalMark}
-            />
-          );
-        }
-      })}
-      <div>
-        Total Mark: {Math.round(totalMark * 100) / 100} /{" "}
-        {currentTest?.totalMark}
+      <div className="questionContainer">
+        {passedTest?.questionArr.map((question) => {
+          if (question.type == "Simple") {
+            return (
+              <PassedSimpleQuestion
+                key={question.id}
+                id={question.id}
+                question={question.question}
+                type={question.type}
+                imgURL={question.imgURL}
+                correctOptionId={question.correctOptionId}
+                gradeAmount={question.gradeAmount}
+                optionsArr={question.optionsArr}
+                currentTest={passedTest}
+                isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
+                setTotalMark={setTotalMark}
+              />
+            );
+          } else if (question.type == "Multiple") {
+            return (
+              <PassedMultipleQuestion
+                key={question.id}
+                id={question.id}
+                question={question.question}
+                type={question.type}
+                imgURL={question.imgURL}
+                correctOptionsId={question.correctOptionsId}
+                isHardModeOn={question.isHardModeOn}
+                gradeAmount={question.gradeAmount}
+                optionsArr={question.optionsArr}
+                currentTest={passedTest}
+                isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
+                setTotalMark={setTotalMark}
+              />
+            );
+          } else if (question.type == "Match") {
+            return (
+              <PassedMatchedQuestion
+                key={question.id}
+                id={question.id}
+                question={question.question}
+                type={question.type}
+                imgURL={question.imgURL}
+                pairs={question.pairs}
+                isHardModeOn={question.isHardModeOn}
+                gradeAmount={question.gradeAmount}
+                currentTest={passedTest}
+                isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
+                setTotalMark={setTotalMark}
+              />
+            );
+          } else {
+            return (
+              <PassWrittenQuestion
+                key={question.id}
+                id={question.id}
+                question={question.question}
+                type={question.type}
+                imgURL={question.imgURL}
+                gradeAmount={question.gradeAmount}
+                correctAnswer={question.correctAnswer}
+                currentTest={passedTest}
+                isHiddenCorrectAnswers={passedTest.isHiddenCorrectAnswers}
+                setTotalMark={setTotalMark}
+              />
+            );
+          }
+        })}
+      </div>
+      <div className="bottomComp">
+        <div className="totalMark">
+          Total Mark: {Math.round(totalMark * 100) / 100} /{" "}
+          {currentTest?.totalMark}
+        </div>
       </div>
     </div>
   );
 };
+
+export default PassedTest;

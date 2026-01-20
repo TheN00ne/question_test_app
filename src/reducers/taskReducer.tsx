@@ -6,7 +6,8 @@ let initialState: iInitialState = {
     {
       id: Date.now(),
       title: "Title 1",
-      description: "Description 1",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio at placeat inventore fugiat necessitatibus dolorem culpa molestias aspernatur impedit. Labore quasi corrupti amet odio atque quam ad vel numquam molestiae aut repellendus laudantium minus incidunt fugit velit illo, veritatis ea repudiandae sint. Molestiae, cum natus laboriosam consectetur ipsum recusandae excepturi necessitatibus laudantium repudiandae soluta corrupti a expedita libero illum quas, officiis commodi accusamus quos minima impedit maxime ut quisquam cumque fugiat. In dolor quam facere animi nobis nostrum architecto officia temporibus accusamus minus consectetur vero omnis sint ullam eum possimus enim molestiae minima similique doloribus modi odit, voluptatum dolores sequi!",
       imgURL: undefined,
       isHiddenCorrectAnswers: false,
       isHiddenQuestions: false,
@@ -90,7 +91,7 @@ let initialState: iInitialState = {
       ],
       totalMark: 25,
       isSetTimer: true,
-      timeout: 15,
+      timeout: 2,
     },
   ],
 };
