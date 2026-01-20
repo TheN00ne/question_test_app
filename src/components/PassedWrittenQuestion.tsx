@@ -58,38 +58,36 @@ export const PassWrittenQuestion: React.FC<
         />
       </div>
       <div>
-        <div>
-          {!props.isHiddenCorrectAnswers ? (
-            <div>
-              {props.correctAnswer.trim().toLowerCase() == "" ? (
-                <div>
-                  <div style={{ border: "1px solid grey", height: "25px" }}>
-                    {props.correctAnswer}
-                  </div>
-                  <div style={{ border: "1px solid green", height: "25px" }}>
-                    {currentCorrectQuestion?.correctAnswer}
-                  </div>
-                </div>
-              ) : props.correctAnswer.trim().toLowerCase() !==
-                currentCorrectQuestion?.correctAnswer.trim().toLowerCase() ? (
-                <div>
-                  <div style={{ border: "1px solid red", height: "25px" }}>
-                    {props.correctAnswer}
-                  </div>
-                  <div style={{ border: "1px solid green", height: "25px" }}>
-                    {currentCorrectQuestion?.correctAnswer}
-                  </div>
-                </div>
-              ) : (
-                <div style={{ border: "1px solid green", height: "25px" }}>
+        {!props.isHiddenCorrectAnswers ? (
+          <div>
+            {props.correctAnswer.trim().toLowerCase() !==
+            currentCorrectQuestion?.correctAnswer.trim().toLowerCase() ? (
+              <div>
+                <div
+                  className="passedWrittenAns"
+                  style={{ backgroundColor: "red" }}
+                >
                   {props.correctAnswer}
                 </div>
-              )}
-            </div>
-          ) : (
-            <div>{props.correctAnswer}</div>
-          )}
-        </div>
+                <div
+                  className="passedWrittenAns"
+                  style={{ backgroundColor: "green" }}
+                >
+                  {currentCorrectQuestion?.correctAnswer}
+                </div>
+              </div>
+            ) : (
+              <div
+                className="passedWrittenAns"
+                style={{ backgroundColor: "green" }}
+              >
+                {props.correctAnswer}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="passedWrittenAns">{props.correctAnswer}</div>
+        )}
       </div>
     </div>
   );

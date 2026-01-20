@@ -29,7 +29,7 @@ export const SimpleQuestion: React.FC<
               type="radio"
               name={`${props.id}`}
               key={option.id}
-              checked={props.isActive ? option.isCorrect : false}
+              checked={props.isActive ? option.isCorrect : undefined}
               disabled={!props.isActive}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 props.setCurrentTest({

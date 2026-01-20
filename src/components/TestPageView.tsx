@@ -17,26 +17,26 @@ const TestPageView: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [emptyCurrentTest, setEmptyCurrentTest] = useState<iTest | undefined>(
-    undefined
+    undefined,
   );
 
   const [secondsAmount, setSecondsAmount] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   const [minutesAmount, setMinutesAmount] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   const [hoursAmount, setHoursAmount] = useState<number | undefined>(undefined);
 
   const getRandomPairs: (value: iMatchQuestion) => iMatchPair[] = (
-    ques: iMatchQuestion
+    ques: iMatchQuestion,
   ) => {
     let pairsIdArr: number[] = [...ques.pairs.map(({ id }) => id)];
 
     return ques.pairs.map((pair) => {
       const [randomPairId] = pairsIdArr.splice(
         Math.round(Math.random() * (pairsIdArr.length - 1)),
-        1
+        1,
       );
 
       return {
@@ -58,24 +58,24 @@ const TestPageView: React.FC = () => {
           ques.type == "Simple"
             ? {
                 ...ques,
-                correctOptionId: undefined,
+                correctOptionId: -1,
                 optionsArr: ques.optionsArr.map((opt) => ({
                   ...opt,
                   isCorrect: false,
                 })),
               }
             : ques.type == "Multiple"
-            ? {
-                ...ques,
-                correctOptionsId: [],
-                optionsArr: ques.optionsArr.map((opt) => ({
-                  ...opt,
-                  isCorrect: false,
-                })),
-              }
-            : ques.type == "Match"
-            ? { ...ques, pairs: getRandomPairs(ques) }
-            : { ...ques, correctAnswer: "" }
+              ? {
+                  ...ques,
+                  correctOptionsId: [],
+                  optionsArr: ques.optionsArr.map((opt) => ({
+                    ...opt,
+                    isCorrect: false,
+                  })),
+                }
+              : ques.type == "Match"
+                ? { ...ques, pairs: getRandomPairs(ques) }
+                : { ...ques, correctAnswer: "" },
         ),
       };
       setEmptyCurrentTest(emptyTest);

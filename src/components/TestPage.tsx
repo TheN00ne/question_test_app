@@ -53,33 +53,35 @@ const TestPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    intervalRef.current = window.setInterval(() => {
-      //Пишу window, бо TS не розуміє, де пищуть код: в браузері чи в NodeJS, тому пишимо window, щоб вказати, що працюємо в браузері
-      setSecondsAmount((prevSec) => {
-        if (prevSec > 0) {
-          return prevSec - 1;
-        }
-        setMinutesAmount((prevMin) => {
-          if (prevMin > 0) {
-            setSecondsAmount(59);
-            return prevMin - 1;
+    if (currentTest?.isSetTimer) {
+      intervalRef.current = window.setInterval(() => {
+        //Пишу window, бо TS не розуміє, де пищуть код: в браузері чи в NodeJS, тому пишимо window, щоб вказати, що працюємо в браузері
+        setSecondsAmount((prevSec) => {
+          if (prevSec > 0) {
+            return prevSec - 1;
           }
-          setHoursAmount((prevHour) => {
-            if (prevHour > 0) {
+          setMinutesAmount((prevMin) => {
+            if (prevMin > 0) {
               setSecondsAmount(59);
-              setMinutesAmount(59);
-              return prevHour - 1;
+              return prevMin - 1;
             }
-            clearInterval(intervalRef.current);
-            setIsTestActive(false);
+            setHoursAmount((prevHour) => {
+              if (prevHour > 0) {
+                setSecondsAmount(59);
+                setMinutesAmount(59);
+                return prevHour - 1;
+              }
+              clearInterval(intervalRef.current);
+              setIsTestActive(false);
+              return 0;
+            });
             return 0;
           });
           return 0;
         });
-        return 0;
-      });
-    }, 1000);
-  }, []);
+      }, 1000);
+    }
+  }, [currentTest]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -110,22 +112,19 @@ const TestPage: React.FC = () => {
             <div className="totalMark">
               Total mark: {currentTest?.totalMark}
             </div>
-            {currentTest?.isSetTimer ? (
-              <div className="timer">
-                <span>
-                  {hoursAmount! > 9 ? hoursAmount : `0${hoursAmount}`}
-                </span>
-                :
-                <span>
-                  {minutesAmount! > 9 ? minutesAmount : `0${minutesAmount}`}
-                </span>
-                :
-                <span>
-                  {secondsAmount! > 9 ? secondsAmount : `0${secondsAmount}`}
-                </span>
-              </div>
-            ) : null}
           </div>
+          {currentTest?.isSetTimer ? (
+            <div className="fixedTimer">
+              <span>{hoursAmount! > 9 ? hoursAmount : `0${hoursAmount}`}</span>:
+              <span>
+                {minutesAmount! > 9 ? minutesAmount : `0${minutesAmount}`}
+              </span>
+              :
+              <span>
+                {secondsAmount! > 9 ? secondsAmount : `0${secondsAmount}`}
+              </span>
+            </div>
+          ) : null}
           <div className="bodyInfo">
             <h1>{currentTest?.title}</h1>
             <p>{currentTest?.description}</p>

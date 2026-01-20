@@ -91,7 +91,7 @@ let initialState: iInitialState = {
       ],
       totalMark: 25,
       isSetTimer: true,
-      timeout: 2,
+      timeout: 15,
     },
   ],
 };
@@ -105,7 +105,7 @@ const testReducer = createSlice({
     },
     deleteTest: (state, action: PayloadAction<number>) => {
       state.testArr = state.testArr.filter(
-        (test) => test.id !== action.payload
+        (test) => test.id !== action.payload,
       );
     },
   },
